@@ -1,0 +1,7 @@
+/* assets/css/main.css */
+@font-face {
+  font-family: 'BobbyJones';
+  src: url('../BobbyJonesCondensed.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
