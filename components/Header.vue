@@ -2,7 +2,7 @@
 <template>
     <div>
       <!-- Desktop header -->
-      <header class="hidden md:block p-4 fixed w-full z-50">
+      <header class="hidden md:block p-4 fixed w-full z-50 top-0 left-0">
         <div class="container mx-auto flex justify-between items-center">
           <div class="logo">
             <nuxt-link to="/" class="text-2xl font-bold text-white">
@@ -10,10 +10,10 @@
             </nuxt-link>
           </div>
           <nav>
-            <ul class="flex space-x-4">
-              <li><nuxt-link to="/about" class="text-orange-600 hover:text-orange-700 font-bold">L'agence</nuxt-link></li>
-              <li><nuxt-link to="/realisations" class="text-orange-600 hover:text-orange-700 font-bold">Réalisations</nuxt-link></li>
-              <li><nuxt-link to="/contact" class="text-orange-600 hover:text-orange-700 font-bold">Contact</nuxt-link></li>
+            <ul class="flex space-x-10 text-xl">
+              <li><nuxt-link to="/about" class="text-white font-bold font-bobby hover:underline hover:underline-offset-[8px]">A propos</nuxt-link></li>
+              <li><nuxt-link to="/realisations" class="text-white font-bold font-bobby hover:underline hover:underline-offset-[8px]">Réalisations</nuxt-link></li>
+              <li><nuxt-link to="/contact" class="text-white font-bold font-bobby hover:underline hover:underline-offset-[8px]">Contact</nuxt-link></li>
             </ul>
           </nav>
         </div>
@@ -46,9 +46,9 @@
             <div class="w-full">
               <nav>
                 <ul class="space-y-6 ml-4">
-                  <li><nuxt-link @click="toggleMenu" to="/about" class="text-white hover:text-orange-200 font-bold text-5xl block font-bobby">L'agence</nuxt-link></li>
-                  <li><nuxt-link @click="toggleMenu" to="/realisations" class="text-white hover:text-orange-200 font-bold text-5xl block font-bobby">Réalisations</nuxt-link></li>
-                  <li><nuxt-link @click="toggleMenu" to="/contact" class="text-white hover:text-orange-200 font-bold text-5xl block font-bobby">Contact</nuxt-link></li>
+                  <li><nuxt-link @click="toggleMenu" to="/about" class="text-white hover:text-red-100 font-bold text-5xl block font-bobby lg:text-white lg:hover:text-orange-200">L'agence</nuxt-link></li>
+                  <li ><nuxt-link @click="toggleMenu" to="/realisations" class="text-white hover:text-red-100 font-bold text-5xl block font-bobby lg:text-white lg:hover:text-orange-200">Réalisations</nuxt-link></li>
+                  <li><nuxt-link @click="toggleMenu" to="/contact" class="text-white hover:text-red-100 font-bold text-5xl block font-bobby lg:text-white lg:hover:text-orange-200">Contact</nuxt-link></li>
 
                 </ul>
               </nav>
@@ -56,7 +56,7 @@
           </div>
           <div class="p-4">
             <div class="container mx-auto">
-              <nuxt-link to="/legal" class="text-white text-lg font-bobby">Mentions légales</nuxt-link>
+              <nuxt-link to="/legal" class="text-white hover:text-red-100 text-lg font-bobby">Mentions légales</nuxt-link>
             </div>
           </div>
         </div>
@@ -94,7 +94,7 @@
     position: absolute;
     height: 3px;
     width: 100%;
-    background: #000;
+    background: #fff;
     border-radius: 9px;
     opacity: 1;
     left: 0;

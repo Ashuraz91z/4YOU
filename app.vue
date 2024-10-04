@@ -1,10 +1,5 @@
 <template>
   <div>
-    <header class="relative lg:hidden">
-
-
-    </header>
-
     <nuxt-page />
   </div>
 </template>
