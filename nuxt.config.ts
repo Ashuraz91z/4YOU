@@ -6,4 +6,14 @@ export default defineNuxtConfig({
   css: [
     '@/assets/css/main.css'
   ],
+  app: {
+    head: {
+      link: [
+        {
+          rel: 'stylesheet',
+          href: 'https://use.typekit.net/czz3odm.css'
+        }
+      ]
+    }
+  }
 })

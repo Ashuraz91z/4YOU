@@ -1,3 +1,3 @@
 <template>
-    <div>Mario</div>
+thèmes
 </template>

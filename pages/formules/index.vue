@@ -1,3 +1,3 @@
 <template>
-    <div>Pirate</div>
+    formules
 </template>

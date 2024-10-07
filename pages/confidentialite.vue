@@ -1,3 +1,3 @@
 <template>
-    <div>Sport</div>
+    confidentialité
 </template>
