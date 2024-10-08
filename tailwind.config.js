@@ -13,7 +13,7 @@ module.exports = {
         rose: "#f99bd4",
         violet: "#d1aeca",
         bleu: "#5289d0",
-        vert: "#19a695"
+        vert: "#b8dca7"
       },
     },
   },

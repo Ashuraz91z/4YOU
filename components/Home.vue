@@ -13,7 +13,7 @@
             <span class="text-rose">O</span>
             <span class="text-bleu">U</span>
           </h1>
-          <p class="text-black text-2xl m-8 font-lust-didone tracking-wide text-center">Inoubliables, jusqu'à l'année prochaine</p>
+          <p class="text-black text-2xl m-8 font-lust-didone tracking-wide text-center">Vos plus belles soirées</p>
           <button @click="scrollToFormule" class="border-2 border-rouge rounded-full p-2">
             <ChevronDownIcon class="w-8 h-8 text-rouge" />
           </button>
@@ -35,7 +35,7 @@
           <div
             class="absolute inset-0 flex flex-col justify-center items-center text-white z-10"
           >
-            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic">Nos Thèmes</h2>
+            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic flex flex-col text-center gap-2">Nos Thèmes <h2 class="not-italic">🎨</h2></h2>
             <span class="mt-4 text-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">→</span>
           </div>
         </section>
@@ -53,7 +53,7 @@
           <div
             class="absolute inset-0 flex flex-col justify-center items-center text-white z-10"
           >
-            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic">Nos Formules</h2>
+            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic flex flex-col text-center gap-2">Nos Formules <h2 class="not-italic">🎟️</h2></h2>
             <span class="mt-4 text-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">→</span>
           </div>
         </section>
@@ -71,7 +71,7 @@
           <div
             class="absolute inset-0 flex flex-col justify-center items-center text-white z-10"
           >
-            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic">After Work</h2>
+            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic flex flex-col text-center gap-2">After Work <h2 class="not-italic">🤵🤵‍♀️</h2></h2>
             <span class="mt-4 text-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">→</span>
           </div>
         </section>
@@ -89,7 +89,7 @@
           <div
             class="absolute inset-0 flex flex-col justify-center items-center text-white z-10"
           >
-            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic">Soirée 18 et +</h2>
+            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic flex flex-col text-center gap-2">Soirée 18 et + <h2 class="not-italic">🍾🎊</h2></h2>
             <span class="mt-4 text-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">→</span>
           </div>
         </section>
@@ -107,7 +107,7 @@
           <div
             class="absolute inset-0 flex flex-col justify-center items-center text-white z-10"
           >
-            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic">Réalisations</h2>
+            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic flex flex-col text-center gap-2">Réalisations <h2 class="not-italic">🎈</h2></h2>
             <span class="mt-4 text-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">→</span>
           </div>
         </section>
