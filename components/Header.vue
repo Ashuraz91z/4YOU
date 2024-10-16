@@ -12,6 +12,7 @@
         <nav>
           <ul class="flex space-x-10 text-xl">
             <li><nuxt-link to="/about" class="text-black font-bold font-lust-didone hover:underline hover:underline-offset-[8px]">A propos</nuxt-link></li>
+            <li><nuxt-link to="/about" class="text-black font-bold font-lust-didone hover:underline hover:underline-offset-[8px]">Sur-mesure</nuxt-link></li>
             <li><nuxt-link to="/contact" class="text-black font-bold font-lust-didone hover:underline hover:underline-offset-[8px]">Contact</nuxt-link></li>
           </ul>
         </nav>
@@ -45,8 +46,8 @@
           <div class="w-full">
             <nav>
               <ul class="space-y-6 ml-4">
-                <li><nuxt-link @click="toggleMenu" to="/about" class="text-white hover:text-red-100 font-bold text-5xl block font-bobby lg:text-white lg:hover:text-orange-200">Qui Nous Sommes</nuxt-link></li>
-                <li ><nuxt-link @click="toggleMenu" to="/realisations" class="text-white hover:text-red-100 font-bold text-5xl block font-bobby lg:text-white lg:hover:text-orange-200">Réalisations</nuxt-link></li>
+                <li><nuxt-link @click="toggleMenu" to="/about" class="text-white hover:text-red-100 font-bold text-5xl block font-bobby lg:text-white lg:hover:text-orange-200">A propos</nuxt-link></li>
+                <li ><nuxt-link @click="toggleMenu" to="/realisations" class="text-white hover:text-red-100 font-bold text-5xl block font-bobby lg:text-white lg:hover:text-orange-200">Demande Spécifique</nuxt-link></li>
                 <li><nuxt-link @click="toggleMenu" to="/contact" class="text-white hover:text-red-100 font-bold text-5xl block font-bobby lg:text-white lg:hover:text-orange-200">Contact</nuxt-link></li>
 
               </ul>

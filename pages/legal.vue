@@ -1,6 +1,6 @@
 <template>
-    <Header />
-    <div class="pt-12">
-        legal
+    <div class="bg-violet">
+        <Header />
+        <Tableau  class="mt-24"/>
     </div>
 </template>

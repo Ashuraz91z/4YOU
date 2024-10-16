@@ -6,6 +6,7 @@ module.exports = {
         'modak': ['Modak', 'sans-serif'],
         'caprasimo': ['Caprasimo', 'sans-serif'],
         'lust-didone': ['lust-didone', 'serif'],  // Ajout de Lust Didone
+        'league-spartan': ['LeagueSpartan', 'sans-serif'],  // Ajout de League Spartan
       },
       colors: {
         orange: '#ffbd59',

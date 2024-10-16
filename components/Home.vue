@@ -35,7 +35,7 @@
           <div
             class="absolute inset-0 flex flex-col justify-center items-center text-white z-10"
           >
-            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic flex flex-col text-center gap-2">Nos Thèmes <h2 class="not-italic">🎨</h2></h2>
+            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic flex flex-col text-center gap-2">Nos Thèmes <h2 class="not-italic text-3xl">🎨</h2></h2>
             <span class="mt-4 text-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">→</span>
           </div>
         </section>
@@ -53,7 +53,7 @@
           <div
             class="absolute inset-0 flex flex-col justify-center items-center text-white z-10"
           >
-            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic flex flex-col text-center gap-2">Nos Formules <h2 class="not-italic">🎟️</h2></h2>
+            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic flex flex-col text-center gap-2">Nos Formules <h2 class="not-italic text-3xl">🎟️</h2></h2>
             <span class="mt-4 text-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">→</span>
           </div>
         </section>
@@ -71,7 +71,7 @@
           <div
             class="absolute inset-0 flex flex-col justify-center items-center text-white z-10"
           >
-            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic flex flex-col text-center gap-2">After Work <h2 class="not-italic">🤵🤵‍♀️</h2></h2>
+            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic flex flex-col text-center gap-2">After Work<h2 class="not-italic text-3xl">🤵🤵‍♀️</h2></h2>
             <span class="mt-4 text-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">→</span>
           </div>
         </section>
@@ -89,7 +89,7 @@
           <div
             class="absolute inset-0 flex flex-col justify-center items-center text-white z-10"
           >
-            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic flex flex-col text-center gap-2">Soirée 18 et + <h2 class="not-italic">🍾🎊</h2></h2>
+            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic flex flex-col text-center gap-2">Soirée 18 et + <h2 class="not-italic text-3xl">🍾🎊</h2></h2>
             <span class="mt-4 text-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">→</span>
           </div>
         </section>
@@ -107,7 +107,7 @@
           <div
             class="absolute inset-0 flex flex-col justify-center items-center text-white z-10"
           >
-            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic flex flex-col text-center gap-2">Réalisations <h2 class="not-italic">🎈</h2></h2>
+            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic flex flex-col text-center gap-2">Réalisations <h2 class="not-italic text-3xl">🎈</h2></h2>
             <span class="mt-4 text-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">→</span>
           </div>
         </section>
