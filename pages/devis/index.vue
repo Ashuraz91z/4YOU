@@ -1,6 +1,10 @@
 <template>
-  <div>
-    <Estimate :initialTheme="currentTheme" />
+  <div class="page-background">
+    <Header />
+    <div class="container mx-auto py-24 px-4">
+      <Estimate :initialTheme="currentTheme" />
+    </div>
+    <Footer />
   </div>
 </template>
 
@@ -28,3 +32,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.page-background {
+  background-color: #ffefef;
+  min-height: 100vh;
+}
+</style>

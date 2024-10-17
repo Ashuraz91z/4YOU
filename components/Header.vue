@@ -11,6 +11,7 @@
         </div>
         <nav>
           <ul class="flex space-x-10 text-xl">
+            <li><nuxt-link to="/" class="font-bold font-lust-didone hover:underline hover:underline-offset-[8px]">Accueil</nuxt-link></li>
             <li><nuxt-link to="/about" class="font-bold font-lust-didone hover:underline hover:underline-offset-[8px]">A propos</nuxt-link></li>
             <li><nuxt-link to="/devis" class="text-black font-bold font-lust-didone hover:underline hover:underline-offset-[8px]">Sur-mesure</nuxt-link></li>
             <li><nuxt-link to="/contact" class="text-black font-bold font-lust-didone hover:underline hover:underline-offset-[8px]">Contact</nuxt-link></li>

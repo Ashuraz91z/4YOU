@@ -1,23 +1,21 @@
 <template>
-  <div class="container mx-auto px-4 mt-8">
-    <h2 class="text-2xl font-bold mb-4">Devis Généré</h2>
+  <div class="container px-4 py-8 mx-auto">
+    <h2 class="text-3xl font-bold  mb-6 text-center">Estimer votre événement</h2>
     
-    <!-- Theme Description Section -->
-    <div v-if="selectedTheme" class="mb-8 border p-4 rounded bg-blue-100">
-      <h3 class="font-bold text-lg mb-2">{{ selectedTheme.name }}</h3>
-      <p>{{ themeDescriptions[selectedTheme.name] }}</p>
-      <p v-if="initialTheme" class="mt-2 font-semibold">Vous avez choisi le thème {{ selectedTheme.name }}. Vous pouvez le modifier si vous le souhaitez.</p>
+    <div v-if="selectedTheme" class="mb-8 border-2 border-purple-500 p-6 rounded-lg bg-purple-50 shadow-md">
+      <h3 class="font-bold text-xl mb-3 text-purple-700">{{ selectedTheme.name }}</h3>
+      <p class="text-gray-700 leading-relaxed">{{ themeDescriptions[selectedTheme.name] }}</p>
+      <p v-if="initialTheme" class="mt-4 font-semibold text-purple-600">Vous avez choisi le thème {{ selectedTheme.name }}. Vous pouvez le modifier si vous le souhaitez.</p>
     </div>
     
-    <!-- Themes Section -->
-    <div class="mb-8">
-      <h3 class="text-xl font-semibold mb-4">Thèmes</h3>
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div class="mb-12">
+      <h3 class="text-2xl font-semibold mb-6 text-center">Thèmes</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         <div 
           v-for="theme in themes" 
           :key="theme.name" 
-          class="border p-4 rounded cursor-pointer"
-          :class="{ 'bg-blue-100': selectedTheme === theme, 'hover:bg-gray-100': selectedTheme !== theme }"
+          class="border-2 p-4 border-black rounded-lg cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-105 bg-white"
+          :class="{ 'border-purple-500 bg-purple-200': selectedTheme === theme, 'border-black hover:border-purple-300 hover:bg-gray-50': selectedTheme !== theme }"
           @click="selectTheme(theme)"
         >
           <label class="flex items-center w-full h-full cursor-pointer">
@@ -26,45 +24,63 @@
               :checked="selectedTheme === theme"
               :value="theme"
               v-model="selectedTheme"
-              class="mr-2"
+              class="mr-3 h-5 w-5 text-purple-600 transition-all duration-300 ease-in-out"
               @click.stop
             >
-            {{ theme.name }}
+            <span class="text-lg">{{ theme.name }}</span>
           </label>
         </div>
       </div>
     </div>
 
-    <!-- Options Section -->
-    <div class="mb-8">
-      <h3 class="text-xl font-semibold mb-4">Options</h3>
-      <div v-for="(option, index) in options" :key="index" class="mb-4">
-        <label :for="'option' + index" class="flex items-center cursor-pointer">
-          <input
-            :id="'option' + index"
-            v-model="option.selected"
-            type="checkbox"
-            class="mr-2"
-          >
-          <span>{{ option.name }} - {{ option.description }} ({{ option.price }}€)</span>
-        </label>
+    <div class="mb-12">
+      <h3 class="text-2xl font-semibold mb-6 text-center">Options</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div 
+          v-for="(option, index) in themeOptions" 
+          :key="index" 
+          class="border-2 p-4 border-black rounded-lg cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-105 bg-white"
+          :class="{ 'border-purple-500 bg-purple-200': option.selected, 'border-black hover:border-purple-300 hover:bg-gray-50': !option.selected }"
+          @click="toggleOption(index)"
+        >
+          <div class="flex items-center w-full h-full">
+            <input
+              :id="'option' + index"
+              :checked="option.selected"
+              type="checkbox"
+              class="mr-3 h-5 w-5 text-purple-600 rounded transition-all duration-300 ease-in-out"
+              @click.stop
+            >
+            <span class="text-lg flex-grow">{{ option.name }}</span>
+            <span class="text-lg font-semibold text-purple-600">+{{ option.price }}€</span>
+          </div>
+        </div>
       </div>
     </div>
 
-    <button @click="generateDevis" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-      Générer le devis
-    </button>
+    <div class="text-center">
+      <button @click="generateDevis" class="bg-purple-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-purple-700 transition-colors duration-300 shadow-lg">
+        Générer le devis
+      </button>
+    </div>
 
-    <div v-if="devisGenerated" class="border p-4 rounded mt-8">
-      <h3 class="text-xl font-semibold mb-4">Devis</h3>
-      <div v-if="selectedTheme" class="mb-2">
-        <span>Thème: {{ selectedTheme.name }} - {{ selectedTheme.price }}€</span>
+    <div v-if="devisGenerated" ref="devisSection" class="mt-12 bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto">
+      <h3 class="text-2xl font-semibold mb-6 text-center text-gray-800">Votre Devis Personnalisé</h3>
+      <div v-if="selectedTheme" class="mb-6 border-b pb-4">
+        <div class="flex justify-between items-center">
+          <span class="text-lg text-gray-700">Thème choisi :</span>
+          <span class="font-semibold text-lg">{{ selectedTheme.price }}€</span>
+        </div>
+        <div class="text-lg text-gray-800 mt-2">{{ selectedTheme.name }}</div>
       </div>
-      <div v-for="(option, index) in selectedOptions" :key="index" class="mb-2">
-        <span>{{ option.name }}: {{ option.price }}€</span>
+      <div class="space-y-4">
+        <div v-for="(option, index) in selectedOptions" :key="index" class="flex justify-between items-center py-2 border-b">
+          <span class="text-gray-700 flex-grow mr-4">{{ option.name }}</span>
+          <span class="font-semibold whitespace-nowrap">{{ option.price }}€</span>
+        </div>
       </div>
-      <div class="mt-4 font-bold">
-        Total: {{ totalPrice }}€
+      <div class="mt-8 bg-gray-100 text-gray-800 font-semibold py-4 px-6 rounded-lg text-xl w-full text-center">
+        Total : {{ totalPrice }}€
       </div>
     </div>
   </div>
@@ -118,19 +134,14 @@ export default {
       'Sport': 'Vibrez au rythme du sport avec un anniversaire de 4 heures, conçu spécialement pour chaque enfant en fonction de son âge et de ses goûts. Au programme, une grande activité sportive avec des jeux et des défis amusants, un goûter énergique avec des collations saines, et des ateliers créatifs où les enfants pourront personnaliser leurs propres t-shirts ou médailles. Préparez-vous à une journée pleine d\'action et de rires, où chaque petit sportif pourra briller et célébrer l\'esprit d\'équipe !'
     }
 
-    const options = ref([
-      { name: 'Décoration supplémentaire', description: 'Ajout de décorations thématiques', price: 50, selected: false },
-      { name: 'Animation', description: 'Animateur costumé pour 2 heures', price: 100, selected: false },
-      { name: 'Gâteau personnalisé', description: 'Gâteau décoré selon le thème', price: 75, selected: false },
-      { name: 'Invitations personnalisées', description: 'Cartes d\'invitation assorties au thème', price: 30, selected: false },
-      { name: 'Photobooth', description: 'Espace photo avec accessoires', price: 80, selected: false }
-    ])
+    const themeOptions = ref([])
 
     const selectedTheme = ref(null)
     const devisGenerated = ref(false)
+    const devisSection = ref(null)
 
     const selectedOptions = computed(() => {
-      return options.value.filter(option => option.selected)
+      return themeOptions.value.filter(option => option.selected)
     })
 
     const totalPrice = computed(() => {
@@ -140,10 +151,103 @@ export default {
 
     function selectTheme(theme) {
       selectedTheme.value = theme
+      updateThemeOptions(theme.name)
+    }
+
+    function updateThemeOptions(themeName) {
+      const optionsMap = {
+        'Super-héros': [
+          { name: 'Gâteau personnalisé Super-Héros', price: 75, selected: false },
+          { name: 'Cadeaux souvenirs personnalisés', price: 50, selected: false },
+          { name: 'Piñata Super-Héros', price: 40, selected: false },
+          { name: 'Effets spéciaux et éclairage', price: 100, selected: false },
+          { name: 'Tournage d\'un mini-film de super-héros', price: 150, selected: false },
+          { name: 'Tente ou espace de jeux gonflables', price: 200, selected: false }
+        ],
+        'Safari': [
+          { name: 'Décoration avec animaux grandeur nature', price: 100, selected: false },
+          { name: 'Piñata en forme d\'animal sauvage', price: 40, selected: false },
+          { name: 'Gâteau personnalisé en forme d\'animal', price: 75, selected: false },
+          { name: 'Tentes Safari ou cabanes', price: 150, selected: false },
+          { name: 'Spectacle d\'animaux (en peluches animées)', price: 100, selected: false },
+          { name: 'Badges d\'explorateur personnalisés', price: 30, selected: false }
+        ],
+        'Princesse': [
+          { name: 'Photobooth féerique', price: 80, selected: false },
+          { name: 'Cadeaux souvenirs royaux', price: 50, selected: false },
+          { name: 'Château gonflable', price: 200, selected: false },
+          { name: 'Karaoké de princesses', price: 100, selected: false },
+          { name: 'Couronnes et capes pour chaque enfant', price: 60, selected: false },
+          { name: 'Spectacle de marionnettes', price: 120, selected: false }
+        ],
+        'Licorne': [
+          { name: 'Gâteau et pâtisseries licorne', price: 100, selected: false },
+          { name: 'Cadeaux souvenirs licorne', price: 50, selected: false },
+          { name: 'Création de cartes de vœux de licorne', price: 40, selected: false },
+          { name: 'Ballons en forme de licorne', price: 60, selected: false },
+          { name: 'Piñata en forme de licorne', price: 40, selected: false }
+        ],
+        'Dinosaures': [
+          { name: 'Décorations préhistoriques', price: 80, selected: false },
+          { name: 'Gâteau dinosaure', price: 75, selected: false },
+          { name: 'Piñata en forme de dinosaure', price: 40, selected: false },
+          { name: 'Atelier de création de masques de dinosaures', price: 50, selected: false },
+          { name: 'Tatoos temporaires de dinosaures', price: 30, selected: false }
+        ],
+        'Harry Potter': [
+          { name: 'Gâteau de Poudlard', price: 100, selected: false },
+          { name: 'Photobooth avec accessoires magiques', price: 80, selected: false },
+          { name: 'Chapeaux de maison personnalisés', price: 60, selected: false },
+          { name: 'Gobelets personnalisés', price: 40, selected: false },
+          { name: 'Sacs de cadeaux magiques', price: 50, selected: false },
+          { name: 'Création de cartes de voeux de Poudlard', price: 40, selected: false }
+        ],
+        'Espace': [
+          { name: 'Décorations galactiques', price: 80, selected: false },
+          { name: 'Gâteau en forme de planète', price: 75, selected: false },
+          { name: 'Déguisements d\'astronautes', price: 100, selected: false },
+          { name: 'Photo Booth spatial', price: 80, selected: false },
+          { name: 'Sacs de cadeaux interstellaires', price: 50, selected: false },
+          { name: 'Démonstration de fusées à eau', price: 60, selected: false }
+        ],
+        'Pirate': [
+          { name: 'Gâteau en forme de trésor', price: 75, selected: false },
+          { name: 'Tatoos temporaires de pirate', price: 30, selected: false },
+          { name: 'Déguisements de pirates', price: 100, selected: false }
+        ],
+        'Chevalier': [
+          { name: 'Gâteau en forme de château', price: 75, selected: false },
+          { name: 'Déguisements de chevaliers', price: 100, selected: false },
+          { name: 'Atelier de création de boucliers', price: 50, selected: false },
+          { name: 'Atelier de fabrication de masques de chevalier', price: 50, selected: false },
+          { name: 'Mini spectacle de magie médiéval', price: 120, selected: false }
+        ],
+        'Détective': [
+          { name: 'Gâteau en forme de loupe', price: 75, selected: false },
+          { name: 'Déguisements de détectives', price: 100, selected: false },
+          { name: 'Photobooth avec accessoires de détective', price: 80, selected: false },
+          { name: 'Sac à surprises "kit de détective"', price: 50, selected: false },
+          { name: 'Livret d\'enquête à personnaliser', price: 40, selected: false }
+        ],
+        'Mario': [],
+        'Star Wars': [],
+        'Pokémon': [],
+        'Sport': []
+      }
+      themeOptions.value = optionsMap[themeName] || []
+    }
+
+    function toggleOption(index) {
+      themeOptions.value[index].selected = !themeOptions.value[index].selected
     }
 
     function generateDevis() {
       devisGenerated.value = true
+      setTimeout(() => {
+        if (devisSection.value) {
+          devisSection.value.scrollIntoView({ behavior: 'smooth' })
+        }
+      }, 100)
     }
 
     const normalizeString = (str) => {
@@ -172,9 +276,11 @@ export default {
         const theme = findTheme(newTheme);
         if (theme) {
           selectedTheme.value = theme;
+          updateThemeOptions(theme.name);
         }
       } else {
         selectedTheme.value = null;
+        themeOptions.value = [];
       }
     }
 
@@ -187,7 +293,7 @@ export default {
 
     return {
       themes,
-      options,
+      themeOptions,
       selectedTheme,
       devisGenerated,
       selectedOptions,
@@ -195,7 +301,9 @@ export default {
       selectTheme,
       generateDevis,
       themeDescriptions,
-      initialTheme: props.initialTheme
+      initialTheme: props.initialTheme,
+      toggleOption,
+      devisSection
     }
   }
 }
