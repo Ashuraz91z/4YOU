@@ -1,3 +1,5 @@
 <template>
-    Realisation
+    <Header />
+    <Realisation />
+    <Footer />
 </template>

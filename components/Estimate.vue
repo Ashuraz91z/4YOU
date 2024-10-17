@@ -22,8 +22,10 @@
         >
           <label class="flex items-center w-full h-full cursor-pointer">
             <input
-              type="checkbox"
+              type="radio"
               :checked="selectedTheme === theme"
+              :value="theme"
+              v-model="selectedTheme"
               class="mr-2"
               @click.stop
             >
@@ -137,7 +139,7 @@ export default {
     })
 
     function selectTheme(theme) {
-      selectedTheme.value = theme === selectedTheme.value ? null : theme
+      selectedTheme.value = theme
     }
 
     function generateDevis() {

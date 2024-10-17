@@ -1,12 +1,12 @@
 <template>
-    <section class="bg-violet/15">
+    <section>
         <Header  />
-        <Theme class="md:mt-24 mt-16"/>
+        <Theme class="md:mt-24 mt-16 text-white"/>
     </section>
 </template>
 
 <style>
 body {
-    background-color: #d1aeca;
+    background-color: #ffefef;
 }
 </style>

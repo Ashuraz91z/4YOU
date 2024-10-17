@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1 class="text-3xl font-bold mb-6">Page de Devis</h1>
     <Estimate :initialTheme="currentTheme" />
   </div>
 </template>
