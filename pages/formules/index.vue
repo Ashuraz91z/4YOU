@@ -1,32 +1,20 @@
 <template>
-    <div>
-      <Tableau :devis="devisData" />
-      <div class="flex justify-center mt-8">
-  <NuxtLink to="/devis" class="bg-rose hover:bg-rose/80 text-black font-bold py-2 px-4 rounded">
-    Obtenir un devis
-  </NuxtLink>
-</div>
+  <div class="bg-[#ffefef] min-h-screen">
+    <Header />
+    <div class="py-24">
+      <Tableau />
     </div>
-  </template>
-  
-  <script>
-  import Tableau from '/components/Tableau.vue'
-  
-  export default {
-    components: {
-      Tableau
-    },
-    data() {
-      return {
-        devisData: {
-          services: [
-            { name: 'Base', price: 100 },
-            { name: 'Middle', price: 150 },
-            { name: 'Premium', price: 200 }
-          ]
-        }
-      };
-    }
-  };
-  </script>
-  
+    <div class="flex justify-center mt-8 mb-16">
+      <NuxtLink to="/devis" class="bg-violet text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
+        Obtenir un devis personnalisé
+      </NuxtLink>
+    </div>
+    <Footer />
+  </div>
+</template>
+
+<script setup>
+import Header from '@/components/Header.vue';
+import Footer from '@/components/Footer.vue';
+import Tableau from '@/components/Tableau.vue';
+</script>

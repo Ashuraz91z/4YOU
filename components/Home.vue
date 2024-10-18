@@ -56,7 +56,10 @@
           <div
             class="absolute inset-0 flex flex-col justify-center items-center text-white z-10"
           >
-            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic flex flex-col text-center gap-2">Nos Formules <h2 class="not-italic text-3xl">🎟️</h2></h2>
+            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic flex flex-col text-center gap-2" data-v-inspector="components/Home.vue:56:13">
+              Nos Formules 
+              <span class="not-italic text-3xl" data-v-inspector="components/Home.vue:56:118">🎟️</span>
+            </h2>
             <span class="mt-4 text-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">→</span>
           </div>
         </section>
@@ -74,7 +77,10 @@
           <div
             class="absolute inset-0 flex flex-col justify-center items-center text-white z-10"
           >
-            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic flex flex-col text-center gap-2">After Work<h2 class="not-italic text-3xl">🤵🤵‍♀️</h2></h2>
+            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic flex flex-col text-center gap-2" data-v-inspector="components/Home.vue:74:13">
+              After Work
+              <span class="not-italic text-3xl" data-v-inspector="components/Home.vue:74:115">🤵🤵‍♀️</span>
+            </h2>
             <span class="mt-4 text-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">→</span>
           </div>
         </section>

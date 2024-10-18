@@ -4,6 +4,7 @@
         <div class="container mx-auto py-24 px-4">
             <h1 class="text-4xl font-bold mb-8 text-center font-lust-didone text-rouge">À propos de Nous</h1>
             <section class="max-w-3xl mx-auto">
+                <img src="~/assets/img/about.jpg" alt="Notre histoire" class="w-full h-auto mb-8 rounded-lg shadow-md border-2 border-black">
                 <h2 class="text-3xl font-bold mb-6 text-center font-caprasimo text-bleu">Notre histoire</h2>
                 <div class="bg-white p-8 rounded-lg shadow-md">
                     <h3 class="text-2xl font-bold mb-4 text-center text-orange font-lust-didone">À propos de 4YOU</h3>
@@ -21,8 +22,7 @@
                         Forts de nombreuses expériences dans l'événementiel, nous sommes également qualifiés pour organiser des soirées plus professionnelles et des événements adaptés aux adultes. Nous vous proposons de faire vivre aux 18 ans et plus un véritable été à Mykonos ou Ibiza… sans quitter le confort de leur salon.
                     </p>
                 </div>
-                <h2 class="text-3xl text-center my-8 font-caprasimo text-rose ">L'équipe :</h2>
-                <img src="~/assets/img/about.jpg" alt="Notre histoire" class="h-[400px] w-full object-cover mt-8 rounded-lg shadow-md border-2 border-black">
+
             </section>
         </div>
         <Footer />
