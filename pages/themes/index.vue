@@ -1,6 +1,6 @@
 <template>
     <section>
-        <Header  />
+        <Header textColor="text-black" />
         <Theme class="md:mt-24 mt-16 text-white"/>
     </section>
 </template>

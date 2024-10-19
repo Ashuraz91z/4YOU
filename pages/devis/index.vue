@@ -1,6 +1,6 @@
 <template>
   <div class="page-background">
-    <Header />
+    <Header textColor="text-black" />
     <div class="container mx-auto py-24 px-4">
       <Estimate :initialTheme="currentTheme" />
     </div>

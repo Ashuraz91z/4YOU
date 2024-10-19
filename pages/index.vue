@@ -1,5 +1,5 @@
 <template>
-  <Header />
+  <Header textColor="text-black" />
   <Home />
   <Footer />
 </template>

@@ -1,6 +1,6 @@
 <template>
   <div class="bg-[#ffefef] min-h-screen">
-    <Header />
+    <Header textColor="text-black" />
     <div class="py-24">
       <Tableau />
     </div>

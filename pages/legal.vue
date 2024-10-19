@@ -1,6 +1,6 @@
 <template>
     <div class="bg-violet">
-        <Header />
+        <Header textColor="text-black" />
         <Tableau  class="mt-24"/>
     </div>
 </template>

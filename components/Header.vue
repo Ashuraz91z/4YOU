@@ -5,16 +5,16 @@
     <header class="hidden md:block p-4 fixed w-full z-50 top-0 left-0">
       <div class="container mx-auto flex justify-between items-center">
         <div class="logo">
-          <nuxt-link to="/" class="text-2xl font-bold text-white">
+          <nuxt-link to="/" class="text-2xl font-bold" :class="textColor">
             <img src="~/assets/logo.png" alt="Logo" class="w-20 h-16 inline-block">
           </nuxt-link>
         </div>
         <nav>
           <ul class="flex space-x-10 text-xl">
-            <li><nuxt-link to="/" class="font-bold font-lust-didone hover:underline hover:underline-offset-[8px]">Accueil</nuxt-link></li>
-            <li><nuxt-link to="/about" class="font-bold font-lust-didone hover:underline hover:underline-offset-[8px]">A propos</nuxt-link></li>
-            <li><nuxt-link to="/devis" class="text-black font-bold font-lust-didone hover:underline hover:underline-offset-[8px]">Sur-mesure</nuxt-link></li>
-            <li><nuxt-link to="/contact" class="text-black font-bold font-lust-didone hover:underline hover:underline-offset-[8px]">Contact</nuxt-link></li>
+            <li><nuxt-link to="/" class="font-bold font-lust-didone hover:underline hover:underline-offset-[8px]" :class="textColor">Accueil</nuxt-link></li>
+            <li><nuxt-link to="/about" class="font-bold font-lust-didone hover:underline hover:underline-offset-[8px]" :class="textColor">A propos</nuxt-link></li>
+            <li><nuxt-link to="/devis" class="font-bold font-lust-didone hover:underline hover:underline-offset-[8px]" :class="textColor">Sur-mesure</nuxt-link></li>
+            <li><nuxt-link to="/contact" class="font-bold font-lust-didone hover:underline hover:underline-offset-[8px]" :class="textColor">Contact</nuxt-link></li>
           </ul>
         </nav>
       </div>
@@ -47,10 +47,10 @@
           <div class="w-full">
             <nav>
               <ul class="space-y-6 ml-4">
+                <li><nuxt-link @click="toggleMenu" to="/" class="text-white hover:text-red-100 font-bold text-5xl block font-bobby lg:text-white lg:hover:text-orange-200">Accueil</nuxt-link></li>
+                <li ><nuxt-link @click="toggleMenu" to="/realisations" class="text-white hover:text-red-100 font-bold text-5xl block font-bobby lg:text-white lg:hover:text-orange-200">Faire un devis</nuxt-link></li>
                 <li><nuxt-link @click="toggleMenu" to="/about" class="text-white hover:text-red-100 font-bold text-5xl block font-bobby lg:text-white lg:hover:text-orange-200">A propos</nuxt-link></li>
-                <li ><nuxt-link @click="toggleMenu" to="/realisations" class="text-white hover:text-red-100 font-bold text-5xl block font-bobby lg:text-white lg:hover:text-orange-200">Demande Spécifique</nuxt-link></li>
                 <li><nuxt-link @click="toggleMenu" to="/contact" class="text-white hover:text-red-100 font-bold text-5xl block font-bobby lg:text-white lg:hover:text-orange-200">Contact</nuxt-link></li>
-
               </ul>
             </nav>
           </div>
@@ -67,6 +67,12 @@
 
 <script>
 export default {
+  props: {
+    textColor: {
+      type: String,
+      default: 'text-white'
+    }
+  },
   data() {
     return {
       isMenuOpen: false
