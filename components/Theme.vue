@@ -203,5 +203,60 @@
           </div>
         </section>
       </nuxt-link>
+
+      <nuxt-link :to="{ path: '/devis', query: { theme: 'boom' } }" class="block group overflow-hidden">
+        <section class="relative h-[50vh] bg-[url('/assets/img/boom.jpeg')] bg-cover bg-center">
+          <div class="absolute inset-0 bg-black/15"></div>
+          <div class="absolute inset-0 transition-transform duration-300 group-hover:scale-105"></div>
+          <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="absolute inset-0 flex flex-col justify-center items-center text-white z-10">
+            <h2 class="text-4xl font-league-spartan font-extrabold mb-4 flex flex-col text-center gap-2 drop-shadow-lg">
+              <span class="mb-4 text-6xl transition-opacity duration-300">BOOM</span>
+            </h2>
+            <span class="mt-4 text-4xl opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-2">→</span>
+          </div>
+        </section>
+      </nuxt-link>
+
+      <nuxt-link :to="{ path: '/devis', query: { theme: 'casino' } }" class="block group overflow-hidden">
+        <section class="relative h-[50vh] bg-[url('/assets/img/casino.jpeg')] bg-cover bg-center">
+          <div class="absolute inset-0 bg-black/15"></div>
+          <div class="absolute inset-0 transition-transform duration-300 group-hover:scale-105"></div>
+          <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="absolute inset-0 flex flex-col justify-center items-center text-white z-10">
+            <h2 class="text-4xl font-league-spartan font-extrabold mb-4 flex flex-col text-center gap-2 drop-shadow-lg">
+              <span class="mb-4 text-6xl transition-opacity duration-300">CASINO</span>
+            </h2>
+            <span class="mt-4 text-4xl opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-2">→</span>
+          </div>
+        </section>
+      </nuxt-link>
+
+      <nuxt-link :to="{ path: '/devis', query: { theme: 'olympiades' } }" class="block group overflow-hidden">
+        <section class="relative h-[50vh] bg-[url('/assets/img/olympiades.jpeg')] bg-cover bg-center">
+          <div class="absolute inset-0 bg-black/15"></div>
+          <div class="absolute inset-0 transition-transform duration-300 group-hover:scale-105"></div>
+          <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="absolute inset-0 flex flex-col justify-center items-center text-white z-10">
+            <h2 class="text-4xl font-league-spartan font-extrabold mb-4 flex flex-col text-center gap-2 drop-shadow-lg">
+              <span class="mb-4 text-6xl transition-opacity duration-300">OLYMPIADES</span>
+            </h2>
+            <span class="mt-4 text-4xl opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-2">→</span>
+          </div>
+        </section>
+      </nuxt-link>
+      <nuxt-link :to="{ path: '/devis', query: { theme: 'atelier-diy' } }" class="block group overflow-hidden">
+        <section class="relative h-[50vh] bg-[url('/assets/img/diy.jpeg')] bg-cover bg-center">
+          <div class="absolute inset-0 bg-black/15"></div>
+          <div class="absolute inset-0 transition-transform duration-300 group-hover:scale-105"></div>
+          <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="absolute inset-0 flex flex-col justify-center items-center text-white z-10">
+            <h2 class="text-4xl font-league-spartan font-extrabold mb-4 flex flex-col text-center gap-2 drop-shadow-lg">
+              <span class="mb-4 text-6xl transition-opacity duration-300">ATELIER DIY</span>
+            </h2>
+            <span class="mt-4 text-4xl opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-2">→</span>
+          </div>
+        </section>
+      </nuxt-link>
     </div>
   </template>  

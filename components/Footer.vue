@@ -5,7 +5,7 @@
         <!-- Informations de contact -->
         <div>
           <h3 class="text-xl font-semibold mb-4 border-b-2 border-black/30 pb-2 font-lust-didone">Contact</h3>
-          <p class="mb-2">Adresse : 123 Rue de l'Événement, Paris, France</p>
+          <p class="mb-2">Adresse : 75 ter avenue de Wagram, Paris, France</p>
           <p class="mb-2">Email : <a href="mailto:contact@agence-evenementiel.com" class="text-violet-300 hover:text-violet-500">contact@4you.fr</a></p>
           <p>Téléphone : <a href="tel:+33123456789" class="text-violet-300 hover:text-violet-500">+33 1 23 45 67 89</a></p>
         </div>
@@ -26,7 +26,7 @@
           <h3 class="text-xl font-semibold mb-4 border-b-2 border-black/30 pb-2 font-lust-didone">Suivez-nous</h3>
           <div class="flex space-x-6">
             <a href="https://facebook.com/agenceevenementiel" target="_blank" rel="noopener noreferrer" class="hover:text-violet-500">Facebook</a>
-            <a href="https://instagram.com/agenceevenementiel" target="_blank" rel="noopener noreferrer" class="hover:text-violet-500">Instagram</a>
+            <a href="https://www.instagram.com/4youeventt?igsh=NmkxZnd0bGphZGVm" target="_blank" rel="noopener noreferrer" class="hover:text-violet-500">Instagram</a>
             <a href="https://linkedin.com/company/agenceevenementiel" target="_blank" rel="noopener noreferrer" class="hover:text-violet-500">LinkedIn</a>
           </div>
         </div>

@@ -8,9 +8,6 @@
             <div class=" w-2/8">
                 <h3>Middle</h3>
             </div>
-            <div class="w-2/8 bg-red-300">
-                <h3>Premium</h3>
-            </div>
         </section>
     </section>
 </template>

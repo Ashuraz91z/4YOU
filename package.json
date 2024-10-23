@@ -11,9 +11,12 @@
   },
   "dependencies": {
     "@nuxtjs/tailwindcss": "^6.12.1",
+    "@pinia/nuxt": "^0.5.5",
+    "@vuepic/vue-datepicker": "^9.0.3",
     "lucide-vue-next": "^0.446.0",
     "nodemailer": "^6.9.15",
     "nuxt": "^3.13.0",
+    "pinia": "^2.2.4",
     "three": "^0.169.0",
     "vue": "latest",
     "vue-router": "latest"

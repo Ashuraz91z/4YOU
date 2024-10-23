@@ -19,8 +19,7 @@
                         Avec 4YOU, nous avons voulu offrir à tous les enfants l'occasion de revivre l'ambiance des colonies de vacances, même l'espace d'une journée. Notre plateforme permet de découvrir, partager et recréer ces moments inoubliables, pour que chaque journée devienne une fête.
                     </p>
                     <p class="text-lg mb-6 leading-relaxed">
-                        Forts de nombreuses expériences dans l'événementiel, nous sommes également qualifiés pour organiser des soirées plus professionnelles et des événements adaptés aux adultes. Nous vous proposons de faire vivre aux 18 ans et plus un véritable été à Mykonos ou Ibiza… sans quitter le confort de leur salon.
-                    </p>
+                        Forts de nombreuses expériences dans l'événementiel, nous sommes également qualifiés pour organiser des soirées plus professionnelles et des événements adaptés aux adultes.</p>
                 </div>
 
             </section>

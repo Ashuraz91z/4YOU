@@ -1,71 +1,102 @@
 <template>
   <div class="container px-4 py-8 mx-auto">
-    <h2 class="text-3xl font-bold  mb-6 text-center">Estimer votre événement</h2>
+    <h2 class="text-3xl font-bold mb-6 text-center">Estimer votre événement</h2>
     
-    <div v-if="selectedTheme" class="mb-8 border-2 border-purple-500 p-6 rounded-lg bg-purple-50 shadow-md">
-      <h3 class="font-bold text-xl mb-3 text-purple-700">{{ selectedTheme.name }}</h3>
-      <p class="text-gray-700 leading-relaxed">{{ themeDescriptions[selectedTheme.name] }}</p>
-      <p v-if="initialTheme" class="mt-4 font-semibold text-purple-600">Vous avez choisi le thème {{ selectedTheme.name }}. Vous pouvez le modifier si vous le souhaitez.</p>
-    </div>
-    
-    <div class="mb-12">
-      <h3 class="text-2xl font-semibold mb-6 text-center">Thèmes</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <div 
-          v-for="theme in themes" 
-          :key="theme.name" 
-          class="border-2 p-4 border-black rounded-lg cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-105 bg-white"
-          :class="{ 'border-purple-500 bg-purple-200': selectedTheme === theme, 'border-black hover:border-purple-300 hover:bg-gray-50': selectedTheme !== theme }"
-          @click="selectTheme(theme)"
+    <div class="mb-8">
+      <h3 class="text-2xl font-semibold mb-6 text-center">Formules</h3>
+      <div class="flex justify-center space-x-4">
+        <button
+          @click="selectFormula(1)"
+          class="px-6 py-2 rounded-full text-lg font-semibold transition-colors duration-300 shadow-lg"
+          :class="selectedFormula === 1 ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'"
         >
-          <label class="flex items-center w-full h-full cursor-pointer">
-            <input
-              type="radio"
-              :checked="selectedTheme === theme"
-              :value="theme"
-              v-model="selectedTheme"
-              class="mr-3 h-5 w-5 text-purple-600 transition-all duration-300 ease-in-out"
-              @click.stop
-            >
-            <span class="text-lg">{{ theme.name }}</span>
-          </label>
-        </div>
+          Formule 1
+        </button>
+        <button
+          @click="selectFormula(2)"
+          class="px-6 py-2 rounded-full text-lg font-semibold transition-colors duration-300 shadow-lg"
+          :class="selectedFormula === 2 ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'"
+        >
+          Formule 2
+        </button>
       </div>
+      <p class="text-center mt-4 text-sm">
+        Vous n'avez pas vu nos formules ? <nuxt-link to="/formules" class="text-black hover:underline">Cliquez ici pour les découvrir</nuxt-link>.
+      </p>
     </div>
 
-    <div class="mb-12">
-      <h3 class="text-2xl font-semibold mb-6 text-center">Options</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <div 
-          v-for="(option, index) in themeOptions" 
-          :key="index" 
-          class="border-2 p-4 border-black rounded-lg cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-105 bg-white"
-          :class="{ 'border-purple-500 bg-purple-200': option.selected, 'border-black hover:border-purple-300 hover:bg-gray-50': !option.selected }"
-          @click="toggleOption(index)"
-        >
-          <div class="flex items-center w-full h-full">
-            <input
-              :id="'option' + index"
-              :checked="option.selected"
-              type="checkbox"
-              class="mr-3 h-5 w-5 text-purple-600 rounded transition-all duration-300 ease-in-out"
-              @click.stop
-            >
-            <span class="text-lg flex-grow">{{ option.name }}</span>
-            <span class="text-lg font-semibold text-purple-600">+{{ option.price }}€</span>
+    <div v-if="selectedFormula">
+      <div v-if="selectedTheme" class="mb-8 border-2 border-purple-500 p-6 rounded-lg bg-purple-50 shadow-md">
+        <h3 class="font-bold text-xl mb-3 text-purple-700">{{ selectedTheme.name }}</h3>
+        <p class="text-gray-700 leading-relaxed">{{ themeDescriptions[selectedTheme.name] }}</p>
+        <p v-if="initialTheme" class="mt-4 font-semibold text-purple-600">Vous avez choisi le thème {{ selectedTheme.name }}. Vous pouvez le modifier si vous le souhaitez.</p>
+      </div>
+      
+      <div v-if="selectedFormula === 2" class="mb-12">
+        <h3 class="text-2xl font-semibold mb-6 text-center">Thèmes</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div 
+            v-for="theme in themes" 
+            :key="theme.name" 
+            class="border-2 p-4 border-black rounded-lg cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-105 bg-white"
+            :class="{ 'border-purple-500 bg-purple-200': selectedTheme === theme, 'border-black hover:border-purple-300 hover:bg-gray-50': selectedTheme !== theme }"
+            @click="selectTheme(theme)"
+          >
+            <label class="flex items-center w-full h-full cursor-pointer">
+              <input
+                type="radio"
+                :checked="selectedTheme === theme"
+                :value="theme"
+                v-model="selectedTheme"
+                class="mr-3 h-5 w-5 text-purple-600 transition-all duration-300 ease-in-out"
+                @click.stop
+              >
+              <span class="text-lg">{{ theme.name }}</span>
+            </label>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="text-center">
-      <button @click="generateDevis" class="bg-purple-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-purple-700 transition-colors duration-300 shadow-lg">
-        Générer le devis
-      </button>
+      <div class="mb-12">
+        <h3 class="text-2xl font-semibold mb-6 text-center">Options</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div 
+            v-for="(option, index) in themeOptions" 
+            :key="index" 
+            class="border-2 p-4 border-black rounded-lg cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-105 bg-white"
+            :class="{ 'border-purple-500 bg-purple-200': option.selected, 'border-black hover:border-purple-300 hover:bg-gray-50': !option.selected }"
+            @click="toggleOption(index)"
+          >
+            <div class="flex items-center w-full h-full">
+              <input
+                :id="'option' + index"
+                :checked="option.selected"
+                type="checkbox"
+                class="mr-3 h-5 w-5 text-purple-600 rounded transition-all duration-300 ease-in-out"
+                @click.stop
+              >
+              <span class="text-lg flex-grow">{{ option.name }}</span>
+              <span class="text-lg font-semibold text-purple-600">+{{ option.price }}€</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button @click="generateDevis" class="bg-purple-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-purple-700 transition-colors duration-300 shadow-lg">
+          Générer le devis
+        </button>
+      </div>
     </div>
 
     <div v-if="devisGenerated" ref="devisSection" class="mt-12 bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto">
       <h3 class="text-2xl font-semibold mb-6 text-center text-gray-800">Votre Devis Personnalisé</h3>
+      <div class="mb-6 border-b pb-4">
+        <div class="flex justify-between items-center">
+          <span class="text-lg text-gray-700">Formule choisie :</span>
+          <span class="font-semibold text-lg">{{ selectedFormula === 1 ? 'Formule 1' : 'Formule 2' }}</span>
+        </div>
+      </div>
       <div v-if="selectedTheme" class="mb-6 border-b pb-4">
         <div class="flex justify-between items-center">
           <span class="text-lg text-gray-700">Thème choisi :</span>
@@ -88,7 +119,7 @@
 
 <script>
 import { ref, computed, watch, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 export default {
   name: 'Estimate',
@@ -96,10 +127,16 @@ export default {
     initialTheme: {
       type: String,
       default: null
+    },
+    initialFormula: {
+      type: Number,
+      default: null
     }
   },
   setup(props) {
     const route = useRoute()
+    const router = useRouter()
+
     const themes = ref([
       { name: 'Super-héros', price: 200 },
       { name: 'Safari', price: 180 },
@@ -114,7 +151,11 @@ export default {
       { name: 'Mario', price: 220 },
       { name: 'Star Wars', price: 250 },
       { name: 'Pokémon', price: 230 },
-      { name: 'Sport', price: 180 }
+      { name: 'Sport', price: 180 },
+      { name: 'Casino Kids', price: 220 },
+      { name: 'Olympiades', price: 200 },
+      { name: 'Atelier DIY', price: 210 },
+      { name: 'Urban Foot', price: 200 }
     ])
 
     const themeDescriptions = {
@@ -131,12 +172,17 @@ export default {
       'Mario': 'Plongez dans l\'univers coloré de Mario avec un anniversaire de 4 heures, conçu spécialement pour chaque enfant en fonction de son âge et de ses goûts. Au programme, une grande activité de jeu inspirée des aventures de Mario, un goûter festif avec des douceurs en forme de champignon et de personnages, et des ateliers créatifs où les enfants pourront créer leurs propres casquettes de Mario ou décorations de niveau. Préparez-vous à une journée pleine d\'amusement et de rires, où chaque enfant pourra vivre des aventures aussi folles que dans le monde des jeux vidéo !',
       'Star Wars': 'Entrez dans la galaxie lointaine de Star Wars avec un anniversaire de 4 heures, spécialement conçu pour chaque enfant selon son âge et ses goûts. Au programme, une grande activité intergalactique pleine d\'action, un goûter galactique avec des friandises inspirées de l\'univers de Star Wars, et des ateliers créatifs où les enfants pourront fabriquer leur propre sabre laser ou vaisseau spatial. Préparez-vous à une journée épique, pleine d\'aventures et de magie, où chaque enfant pourra devenir un héros de la saga le temps d\'une fête inoubliable !',
       'Pokémon': 'Entrez dans le monde fascinant des Pokémon avec un anniversaire de 4 heures, spécialement conçu pour chaque enfant selon son âge et ses goûts. Au programme, une grande activité de chasse aux Pokémon, un goûter inspiré de l\'univers Pokémon avec des douceurs thématiques, et des ateliers créatifs où les enfants pourront créer leurs propres cartes ou figurines de Pokémon. Préparez-vous à une journée remplie d\'aventures et de découvertes, où chaque enfant pourra devenir un véritable maître Pokémon le temps d\'une fête inoubliable !',
-      'Sport': 'Vibrez au rythme du sport avec un anniversaire de 4 heures, conçu spécialement pour chaque enfant en fonction de son âge et de ses goûts. Au programme, une grande activité sportive avec des jeux et des défis amusants, un goûter énergique avec des collations saines, et des ateliers créatifs où les enfants pourront personnaliser leurs propres t-shirts ou médailles. Préparez-vous à une journée pleine d\'action et de rires, où chaque petit sportif pourra briller et célébrer l\'esprit d\'équipe !'
+      'Sport': 'Vibrez au rythme du sport avec un anniversaire de 4 heures, conçu spécialement pour chaque enfant en fonction de son âge et de ses goûts. Au programme, une grande activité sportive avec des jeux et des défis amusants, un goûter énergique avec des collations saines, et des ateliers créatifs où les enfants pourront personnaliser leurs propres t-shirts ou médailles. Préparez-vous à une journée pleine d\'action et de rires, où chaque petit sportif pourra briller et célébrer l\'esprit d\'équipe !',
+      'Casino Kids': "Plongez dans l'univers captivant des jeux et du divertissement avec un anniversaire sur le thème du casino, pensé pour émerveiller les enfants pendant 4 heures. Adaptée à chaque âge, cette fête propose des jeux de hasard et de stratégie, revisités pour les plus jeunes, comme des roulettes, des cartes, et des défis amusants. Le goûter festif, inspiré de l'univers des casinos, sera suivi d'activités ludiques où chacun pourra tester sa chance et son esprit d'équipe. Préparez-vous à vivre une journée pleine de suspense et de fous rires où chaque enfant sera le grand gagnant !",
+      'Olympiades': "Transformez l'anniversaire de votre enfant en un véritable tournoi olympique de 4 heures, avec des défis sportifs et ludiques adaptés à tous les âges. Au programme, des épreuves amusantes où chaque enfant pourra donner le meilleur de lui-même, en s'affrontant dans des courses, des jeux d'adresse et des défis d'équipe. Après s'être bien dépensés, ils partageront un goûter énergisant, avant de poursuivre avec des ateliers créatifs sur le thème des sports. Une journée pleine de dynamisme, où rires et camaraderie seront les maîtres-mots, pour un anniversaire inoubliable !",
+      'Atelier DIY': "Laissez libre cours à la créativité des enfants lors d'un anniversaire DIY de 4 heures, spécialement conçu pour tous les petits artistes en herbe ! Chaque enfant pourra participer à des ateliers personnalisés, adaptés à son âge et à ses goûts, où ils créeront leurs propres œuvres d'art, bijoux, ou objets déco. Après un goûter festif et coloré, les enfants repartiront avec leurs créations uniques comme souvenir. Préparez-vous à une journée pleine de créativité, de fun et d'imagination, où chaque enfant pourra laisser sa marque et s'exprimer librement à travers ses réalisations !",
+      'Urban Foot': "Transformez l'anniversaire de votre enfant en un événement sportif palpitant avec notre thème Urban Foot ! Pendant 4 heures, les enfants vivront l'excitation d'un vrai tournoi de football urbain, adapté à tous les âges et niveaux. Au programme : des matchs endiablés sur des mini-terrains, des défis techniques amusants, et des jeux d'équipe qui favorisent l'esprit sportif. Après l'effort, un goûter énergisant les attend, suivi d'activités créatives sur le thème du football. Une journée remplie d'action, de rires et de camaraderie, pour un anniversaire qui marquera tous les petits champions !"
     }
 
     const themeOptions = ref([])
 
     const selectedTheme = ref(null)
+    const selectedFormula = ref(null)
     const devisGenerated = ref(false)
     const devisSection = ref(null)
 
@@ -145,96 +191,54 @@ export default {
     })
 
     const totalPrice = computed(() => {
-      let total = selectedTheme.value ? selectedTheme.value.price : 0
-      return total + selectedOptions.value.reduce((sum, option) => sum + option.price, 0)
+      let total = 0
+      if (selectedFormula.value === 1) {
+        total += 300 // Prix de la Formule 1
+      } else if (selectedFormula.value === 2 && selectedTheme.value) {
+        total += selectedTheme.value.price
+      }
+      total += selectedOptions.value.reduce((sum, option) => sum + option.price, 0)
+      return total
     })
 
-    function selectTheme(theme) {
-      selectedTheme.value = theme
-      updateThemeOptions(theme.name)
+    function selectFormula(formula) {
+      selectedFormula.value = formula
+      if (formula === 1) {
+        selectedTheme.value = null
+      }
+      updateThemeOptions()
     }
 
-    function updateThemeOptions(themeName) {
-      const optionsMap = {
-        'Super-héros': [
-          { name: 'Gâteau personnalisé Super-Héros', price: 75, selected: false },
-          { name: 'Cadeaux souvenirs personnalisés', price: 50, selected: false },
-          { name: 'Piñata Super-Héros', price: 40, selected: false },
-          { name: 'Effets spéciaux et éclairage', price: 100, selected: false },
-          { name: 'Tournage d\'un mini-film de super-héros', price: 150, selected: false },
-          { name: 'Tente ou espace de jeux gonflables', price: 200, selected: false }
-        ],
-        'Safari': [
-          { name: 'Décoration avec animaux grandeur nature', price: 100, selected: false },
-          { name: 'Piñata en forme d\'animal sauvage', price: 40, selected: false },
-          { name: 'Gâteau personnalisé en forme d\'animal', price: 75, selected: false },
-          { name: 'Tentes Safari ou cabanes', price: 150, selected: false },
-          { name: 'Spectacle d\'animaux (en peluches animées)', price: 100, selected: false },
-          { name: 'Badges d\'explorateur personnalisés', price: 30, selected: false }
-        ],
-        'Princesse': [
-          { name: 'Photobooth féerique', price: 80, selected: false },
-          { name: 'Cadeaux souvenirs royaux', price: 50, selected: false },
-          { name: 'Château gonflable', price: 200, selected: false },
-          { name: 'Karaoké de princesses', price: 100, selected: false },
-          { name: 'Couronnes et capes pour chaque enfant', price: 60, selected: false },
-          { name: 'Spectacle de marionnettes', price: 120, selected: false }
-        ],
-        'Licorne': [
-          { name: 'Gâteau et pâtisseries licorne', price: 100, selected: false },
-          { name: 'Cadeaux souvenirs licorne', price: 50, selected: false },
-          { name: 'Création de cartes de vœux de licorne', price: 40, selected: false },
-          { name: 'Ballons en forme de licorne', price: 60, selected: false },
-          { name: 'Piñata en forme de licorne', price: 40, selected: false }
-        ],
-        'Dinosaures': [
-          { name: 'Décorations préhistoriques', price: 80, selected: false },
-          { name: 'Gâteau dinosaure', price: 75, selected: false },
-          { name: 'Piñata en forme de dinosaure', price: 40, selected: false },
-          { name: 'Atelier de création de masques de dinosaures', price: 50, selected: false },
-          { name: 'Tatoos temporaires de dinosaures', price: 30, selected: false }
-        ],
-        'Harry Potter': [
-          { name: 'Gâteau de Poudlard', price: 100, selected: false },
-          { name: 'Photobooth avec accessoires magiques', price: 80, selected: false },
-          { name: 'Chapeaux de maison personnalisés', price: 60, selected: false },
-          { name: 'Gobelets personnalisés', price: 40, selected: false },
-          { name: 'Sacs de cadeaux magiques', price: 50, selected: false },
-          { name: 'Création de cartes de voeux de Poudlard', price: 40, selected: false }
-        ],
-        'Espace': [
-          { name: 'Décorations galactiques', price: 80, selected: false },
-          { name: 'Gâteau en forme de planète', price: 75, selected: false },
-          { name: 'Déguisements d\'astronautes', price: 100, selected: false },
-          { name: 'Photo Booth spatial', price: 80, selected: false },
-          { name: 'Sacs de cadeaux interstellaires', price: 50, selected: false },
-          { name: 'Démonstration de fusées à eau', price: 60, selected: false }
-        ],
-        'Pirate': [
-          { name: 'Gâteau en forme de trésor', price: 75, selected: false },
-          { name: 'Tatoos temporaires de pirate', price: 30, selected: false },
-          { name: 'Déguisements de pirates', price: 100, selected: false }
-        ],
-        'Chevalier': [
-          { name: 'Gâteau en forme de château', price: 75, selected: false },
-          { name: 'Déguisements de chevaliers', price: 100, selected: false },
-          { name: 'Atelier de création de boucliers', price: 50, selected: false },
-          { name: 'Atelier de fabrication de masques de chevalier', price: 50, selected: false },
-          { name: 'Mini spectacle de magie médiéval', price: 120, selected: false }
-        ],
-        'Détective': [
-          { name: 'Gâteau en forme de loupe', price: 75, selected: false },
-          { name: 'Déguisements de détectives', price: 100, selected: false },
-          { name: 'Photobooth avec accessoires de détective', price: 80, selected: false },
-          { name: 'Sac à surprises "kit de détective"', price: 50, selected: false },
-          { name: 'Livret d\'enquête à personnaliser', price: 40, selected: false }
-        ],
-        'Mario': [],
-        'Star Wars': [],
-        'Pokémon': [],
-        'Sport': []
+    function selectTheme(theme) {
+      if (selectedFormula.value === 2) {
+        selectedTheme.value = theme
+        updateThemeOptions()
       }
-      themeOptions.value = optionsMap[themeName] || []
+    }
+
+    function updateThemeOptions() {
+      if (selectedFormula.value === 1) {
+        // Formule 1 peut avoir des options différentes ou aucune option
+        themeOptions.value = []
+      } else if (selectedFormula.value === 2) {
+        themeOptions.value = [
+          { name: 'Gâteau personnalisé', price: 70, selected: false },
+          { name: 'Cadeau souvenir', price: 50, selected: false },
+          { name: 'Piñata', price: 35, selected: false },
+          { name: 'Prestataire (Clown, Magicien, Chimiste, etc.)', price: 250, selected: false },
+          { name: 'Invitation personnalisée', price: 20, selected: false },
+          { name: 'Photographe professionnel', price: 150, selected: false },
+          { name: 'Appareil photo Kodak avec développement des photos', price: 70, selected: false },
+          { name: 'Goodies personnalisés (T-shirt, casquette, etc.)', price: 150, selected: false },
+          { name: 'Déjeuner complet (pizza, sandwich, BBQ)', price: 200, selected: false },
+          { name: 'Heure en +', price: 80, selected: false },
+          { name: 'Bar à bonbons', price: 100, selected: false },
+          { name: 'Machine à pop-corn', price: 80, selected: false },
+          { name: 'Location de château gonflable', price: 200, selected: false },
+          { name: 'Caricaturiste', price: 150, selected: false },
+          { name: 'Tatouage temporaire', price: 50, selected: false }
+        ]
+      }
     }
 
     function toggleOption(index) {
@@ -248,6 +252,9 @@ export default {
           devisSection.value.scrollIntoView({ behavior: 'smooth' })
         }
       }, 100)
+      
+      // Navigation vers la page de réservation
+      router.push('/reservation')
     }
 
     const normalizeString = (str) => {
@@ -276,29 +283,39 @@ export default {
         const theme = findTheme(newTheme);
         if (theme) {
           selectedTheme.value = theme;
-          updateThemeOptions(theme.name);
+          selectedFormula.value = 2;
+          updateThemeOptions();
         }
       } else {
         selectedTheme.value = null;
         themeOptions.value = [];
       }
-    }
+    };
 
     watch(() => props.initialTheme, handleThemeSelection, { immediate: true })
     watch(() => route.query.theme, handleThemeSelection, { immediate: true })
 
     onMounted(() => {
-      // Le montage est silencieux maintenant
+      if (props.initialFormula) {
+        selectFormula(props.initialFormula);
+      } else if (route.query.formula) {
+        const formula = parseInt(route.query.formula);
+        if (formula === 1 || formula === 2) {
+          selectFormula(formula);
+        }
+      }
     })
 
     return {
       themes,
       themeOptions,
       selectedTheme,
+      selectedFormula,
       devisGenerated,
       selectedOptions,
       totalPrice,
       selectTheme,
+      selectFormula,
       generateDevis,
       themeDescriptions,
       initialTheme: props.initialTheme,
@@ -308,3 +325,7 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+/* Ajoutez des styles personnalisés si nécessaire */
+</style>

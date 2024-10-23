@@ -23,6 +23,28 @@
 
     <!-- Sections Thématiques -->
     <div id="sections" class="grid grid-cols-1 md:grid-cols-2 w-full gap-0">
+      
+      <!-- Section 2 - Nos Formules -->
+      <nuxt-link :to="'/formules'" class="block group overflow-hidden">
+        <section class="relative h-[calc(100vh/2)]">
+          <div
+            class="absolute inset-0 bg-bleu bg-cover bg-center transition-transform duration-300 group-hover:scale-110"
+          ></div>
+          <div
+            class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          ></div>
+          <div
+            class="absolute inset-0 flex flex-col justify-center items-center text-white z-10"
+          >
+            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic flex flex-col text-center gap-2" data-v-inspector="components/Home.vue:56:13">
+              Nos Formules 
+              <span class="not-italic text-3xl" data-v-inspector="components/Home.vue:56:118">🎟️</span>
+            </h2>
+            <span class="mt-4 text-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">→</span>
+          </div>
+        </section>
+      </nuxt-link>
+      
       <!-- Section 1 - Nos Thèmes -->
       <nuxt-link :to="'/themes'" class="block group overflow-hidden">
         <section class="relative h-[calc(100vh/2)]">
@@ -44,26 +66,6 @@
         </section>
       </nuxt-link>
 
-      <!-- Section 2 - Nos Formules -->
-      <nuxt-link :to="'/formules'" class="block group overflow-hidden">
-        <section class="relative h-[calc(100vh/2)]">
-          <div
-            class="absolute inset-0 bg-bleu bg-cover bg-center transition-transform duration-300 group-hover:scale-110"
-          ></div>
-          <div
-            class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          ></div>
-          <div
-            class="absolute inset-0 flex flex-col justify-center items-center text-white z-10"
-          >
-            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic flex flex-col text-center gap-2" data-v-inspector="components/Home.vue:56:13">
-              Nos Formules 
-              <span class="not-italic text-3xl" data-v-inspector="components/Home.vue:56:118">🎟️</span>
-            </h2>
-            <span class="mt-4 text-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">→</span>
-          </div>
-        </section>
-      </nuxt-link>
 
       <!-- Section 3 - After Work -->
       <nuxt-link :to="'/after-work'" class="block group overflow-hidden">
@@ -98,7 +100,10 @@
           <div
             class="absolute inset-0 flex flex-col justify-center items-center text-white z-10"
           >
-            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic flex flex-col text-center gap-2">Soirée 18 et + <h2 class="not-italic text-3xl">🍾🎊</h2></h2>
+            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic flex flex-col text-center gap-2">
+              Soirée 18 et + 
+              <span class="not-italic text-3xl">🍾🎊</span>
+            </h2>
             <span class="mt-4 text-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">→</span>
           </div>
         </section>
@@ -116,7 +121,10 @@
           <div
             class="absolute inset-0 flex flex-col justify-center items-center text-white z-10"
           >
-            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic flex flex-col text-center gap-2">Réalisations <h2 class="not-italic text-3xl">🎈</h2></h2>
+            <h2 class="text-4xl font-bold mb-4 font-lust-didone italic flex flex-col text-center gap-2">
+              Réalisations 
+              <span class="not-italic text-3xl">🎈</span>
+            </h2>
             <span class="mt-4 text-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">→</span>
           </div>
         </section>
