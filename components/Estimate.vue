@@ -113,6 +113,54 @@
       <div class="mt-8 bg-gray-100 text-gray-800 font-semibold py-4 px-6 rounded-lg text-xl w-full text-center">
         Total : {{ totalPrice }}€
       </div>
+      <div class="mt-8 text-center">
+        <button @click="showReservationForm = true" class="bg-purple-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-purple-700 transition-colors duration-300 shadow-lg">
+          Réserver
+        </button>
+      </div>
+    </div>
+
+    <div v-if="showReservationForm" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+      <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4">
+        <h3 class="text-3xl font-bold mb-6 text-center text-purple-700">Réservation</h3>
+        <form @submit.prevent="submitReservation" class="space-y-6">
+          <div>
+            <label for="guests" class="block text-sm font-medium text-gray-700 mb-1">Nombre d'invités</label>
+            <input type="number" id="guests" v-model="reservationForm.guests" required class="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200">
+          </div>
+          <div>
+            <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Date de l'événement</label>
+            <VueDatePicker
+              v-model="reservationForm.date"
+              :locale="locale"
+              :format="dateFormat"
+              :enable-time-picker="false"
+              :min-date="new Date()"
+              placeholder="Sélectionnez une date"
+              input-class-name="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200"
+              :hide-input-icon="true"
+              required
+            >
+            </VueDatePicker>
+          </div>
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Votre email</label>
+            <input type="email" id="email" v-model="reservationForm.email" required class="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200">
+          </div>
+          <div>
+            <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message (optionnel)</label>
+            <textarea id="message" v-model="reservationForm.message" rows="3" class="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200"></textarea>
+          </div>
+          <div class="flex justify-end space-x-4">
+            <button type="button" @click="showReservationForm = false" class="px-6 py-2 rounded-lg text-purple-700 bg-purple-100 hover:bg-purple-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200">
+              Annuler
+            </button>
+            <button type="submit" class="px-6 py-2 rounded-lg text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200">
+              Réserver
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -120,9 +168,14 @@
 <script>
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import VueDatePicker from '@vuepic/vue-datepicker'
+import '@vuepic/vue-datepicker/dist/main.css'
 
 export default {
   name: 'Estimate',
+  components: {
+    VueDatePicker
+  },
   props: {
     initialTheme: {
       type: String,
@@ -136,6 +189,30 @@ export default {
   setup(props) {
     const route = useRoute()
     const router = useRouter()
+
+    // Configuration locale pour le DatePicker
+    const locale = {
+      locale: 'fr',
+      format: 'dd/MM/yyyy',
+      firstDay: 1,
+      yearSuffix: '',
+      weekdays: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+      weekdaysShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+      months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+      monthsShort: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'],
+      today: "Aujourd'hui",
+      clear: 'Effacer',
+      close: 'Fermer'
+    }
+
+    const dateFormat = (date) => {
+      if (!date) return ''
+      return new Date(date).toLocaleDateString('fr-FR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      })
+    }
 
     const themes = ref([
       { name: 'Super-héros', price: 200 },
@@ -185,6 +262,13 @@ export default {
     const selectedFormula = ref(null)
     const devisGenerated = ref(false)
     const devisSection = ref(null)
+    const showReservationForm = ref(false)
+    const reservationForm = ref({
+      guests: '',
+      date: null,
+      email: '',
+      message: ''
+    })
 
     const selectedOptions = computed(() => {
       return themeOptions.value.filter(option => option.selected)
@@ -212,33 +296,27 @@ export default {
     function selectTheme(theme) {
       if (selectedFormula.value === 2) {
         selectedTheme.value = theme
-        updateThemeOptions()
       }
     }
 
     function updateThemeOptions() {
-      if (selectedFormula.value === 1) {
-        // Formule 1 peut avoir des options différentes ou aucune option
-        themeOptions.value = []
-      } else if (selectedFormula.value === 2) {
-        themeOptions.value = [
-          { name: 'Gâteau personnalisé', price: 70, selected: false },
-          { name: 'Cadeau souvenir', price: 50, selected: false },
-          { name: 'Piñata', price: 35, selected: false },
-          { name: 'Prestataire (Clown, Magicien, Chimiste, etc.)', price: 250, selected: false },
-          { name: 'Invitation personnalisée', price: 20, selected: false },
-          { name: 'Photographe professionnel', price: 150, selected: false },
-          { name: 'Appareil photo Kodak avec développement des photos', price: 70, selected: false },
-          { name: 'Goodies personnalisés (T-shirt, casquette, etc.)', price: 150, selected: false },
-          { name: 'Déjeuner complet (pizza, sandwich, BBQ)', price: 200, selected: false },
-          { name: 'Heure en +', price: 80, selected: false },
-          { name: 'Bar à bonbons', price: 100, selected: false },
-          { name: 'Machine à pop-corn', price: 80, selected: false },
-          { name: 'Location de château gonflable', price: 200, selected: false },
-          { name: 'Caricaturiste', price: 150, selected: false },
-          { name: 'Tatouage temporaire', price: 50, selected: false }
-        ]
-      }
+      themeOptions.value = [
+        { name: 'Gâteau personnalisé', price: 70, selected: false },
+        { name: 'Cadeau souvenir', price: 50, selected: false },
+        { name: 'Piñata', price: 35, selected: false },
+        { name: 'Prestataire (Clown, Magicien, Chimiste, etc.)', price: 250, selected: false },
+        { name: 'Invitation personnalisée', price: 20, selected: false },
+        { name: 'Photographe professionnel', price: 150, selected: false },
+        { name: 'Appareil photo Kodak avec développement des photos', price: 70, selected: false },
+        { name: 'Goodies personnalisés (T-shirt, casquette, etc.)', price: 150, selected: false },
+        { name: 'Déjeuner complet (pizza, sandwich, BBQ)', price: 200, selected: false },
+        { name: 'Heure en +', price: 80, selected: false },
+        { name: 'Bar à bonbons', price: 100, selected: false },
+        { name: 'Machine à pop-corn', price: 80, selected: false },
+        { name: 'Location de château gonflable', price: 200, selected: false },
+        { name: 'Caricaturiste', price: 150, selected: false },
+        { name: 'Tatouage temporaire', price: 50, selected: false }
+      ]
     }
 
     function toggleOption(index) {
@@ -252,9 +330,38 @@ export default {
           devisSection.value.scrollIntoView({ behavior: 'smooth' })
         }
       }, 100)
+    }
+
+    function submitReservation() {
+      const formattedDate = reservationForm.value.date ? dateFormat(reservationForm.value.date) : ''
       
-      // Navigation vers la page de réservation
-      router.push('/reservation')
+      const recap = `
+Récapitulatif de votre réservation :
+
+Formule : ${selectedFormula.value === 1 ? 'Formule 1' : 'Formule 2'}
+${selectedTheme.value ? `Thème : ${selectedTheme.value.name}` : ''}
+Options sélectionnées :
+${selectedOptions.value.map(option => `- ${option.name}: ${option.price}€`).join('\n')}
+
+Total : ${totalPrice.value}€
+
+Détails de la réservation :
+Nombre d'invités : ${reservationForm.value.guests}
+Date de l'événement : ${formattedDate}
+Email : ${reservationForm.value.email}
+Message : ${reservationForm.value.message}
+      `
+
+      console.log('Récapitulatif de la réservation:', recap)
+
+      // Réinitialiser le formulaire
+      reservationForm.value = {
+        guests: '',
+        date: null,
+        email: '',
+        message: ''
+      }
+      showReservationForm.value = false
     }
 
     const normalizeString = (str) => {
@@ -320,12 +427,71 @@ export default {
       themeDescriptions,
       initialTheme: props.initialTheme,
       toggleOption,
-      devisSection
+      devisSection,
+      showReservationForm,
+      reservationForm,
+      submitReservation,
+      locale,
+      dateFormat
     }
   }
 }
 </script>
 
-<style scoped>
-/* Ajoutez des styles personnalisés si nécessaire */
+<style>
+.dp__main {
+  font-family: inherit;
+}
+
+.dp__input {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border-width: 2px;
+  border-color: rgb(216 180 254);
+  transition-property: all;
+  transition-duration: 200ms;
+}
+
+.dp__input:focus {
+  outline: none;
+  border-color: rgb(168 85 247);
+  box-shadow: 0 0 0 4px rgb(216 180 254 / 0.25);
+}
+
+.dp__input::placeholder {
+  color: rgb(107 114 128);
+}
+
+.dp__calendar_header {
+  color: rgb(107 114 128);
+}
+
+.dp__today {
+  background-color: rgb(233 213 255);
+  color: rgb(126 34 206);
+}
+
+.dp__active_date {
+  background-color: rgb(147 51 234);
+  color: white;
+}
+
+.dp__date_hover {
+  background-color: rgb(233 213 255);
+  color: rgb(126 34 206);
+}
+
+.dp__disabled {
+  color: rgb(209 213 219);
+}
+
+.dp__range_start, .dp__range_end, .dp__range_between {
+  background-color: rgb(147 51 234);
+  color: white;
+}
+
+.dp__month_year_select {
+  color: rgb(107 114 128);
+}
 </style>

@@ -48,7 +48,7 @@
             <nav>
               <ul class="space-y-6 ml-4">
                 <li><nuxt-link @click="toggleMenu" to="/" class="text-white hover:text-red-100 font-bold text-5xl block font-bobby lg:text-white lg:hover:text-orange-200">Accueil</nuxt-link></li>
-                <li ><nuxt-link @click="toggleMenu" to="/realisations" class="text-white hover:text-red-100 font-bold text-5xl block font-bobby lg:text-white lg:hover:text-orange-200">Faire un devis</nuxt-link></li>
+                <li ><nuxt-link @click="toggleMenu" to="/sur-mesure" class="text-white hover:text-red-100 font-bold text-5xl block font-bobby lg:text-white lg:hover:text-orange-200">Sur-mesure</nuxt-link></li>
                 <li><nuxt-link @click="toggleMenu" to="/about" class="text-white hover:text-red-100 font-bold text-5xl block font-bobby lg:text-white lg:hover:text-orange-200">A propos</nuxt-link></li>
                 <li><nuxt-link @click="toggleMenu" to="/realisations" class="text-white hover:text-red-100 font-bold text-5xl block font-bobby lg:text-white lg:hover:text-orange-200">Réalisations</nuxt-link></li>
                 <li><nuxt-link @click="toggleMenu" to="/contact" class="text-white hover:text-red-100 font-bold text-5xl block font-bobby lg:text-white lg:hover:text-orange-200">Contact</nuxt-link></li>
