@@ -22,7 +22,13 @@
           <div class="mt-4 flex items-center justify-between">
             <span class="text-amber-300 h-10 flex items-center">{{ phase.price }} €</span>
             <label :for="'phase-' + index" class="flex items-center cursor-pointer">
-              <input type="checkbox" :id="'phase-' + index" v-model="selectedPhases[index]" class="mr-2 hidden">
+              <input 
+                type="checkbox" 
+                :id="'phase-' + index" 
+                :checked="selectedPhases[index]"
+                @change="() => updatePhaseSelection(index)"
+                class="mr-2 hidden"
+              >
               <span 
                 class="px-4 py-2 rounded-full transition-colors duration-200 ease-in-out inline-block w-40 text-center"
                 :class="selectedPhases[index] ? 'bg-amber-400 text-indigo-900 font-bold' : 'bg-transparent border-2 border-amber-300 text-amber-300'"
@@ -50,7 +56,13 @@
           <div class="mt-4 flex items-center justify-between">
             <span class="text-amber-300 h-10 flex items-center">{{ securityPrice }} €</span>
             <label for="security" class="flex items-center cursor-pointer">
-              <input type="checkbox" id="security" v-model="selectedSecurity" class="mr-2 hidden">
+              <input 
+                type="checkbox" 
+                id="security" 
+                v-model="selectedSecurity" 
+                @change="updateTotalEstimate" 
+                class="mr-2 hidden"
+              >
               <span 
                 class="px-4 py-2 rounded-full transition-colors duration-200 ease-in-out inline-block w-40 text-center"
                 :class="selectedSecurity ? 'bg-amber-400 text-indigo-900 font-bold' : 'bg-transparent border-2 border-amber-300 text-amber-300'"
@@ -84,9 +96,87 @@
       </section>
 
       <div class="text-center mt-16">
-        <NuxtLink to="/devis" class="bg-amber-400 hover:bg-amber-500 text-indigo-900 font-bold py-4 px-8 rounded-full text-xl transition duration-300 ease-in-out transform hover:scale-105">
+        <button 
+          @click="showReservationForm = true" 
+          class="bg-amber-400 hover:bg-amber-500 text-indigo-900 font-bold py-4 px-8 rounded-full text-xl transition duration-300 ease-in-out transform hover:scale-105"
+        >
           Réserver votre Soirée 18+
-        </NuxtLink>
+        </button>
+      </div>
+
+      <!-- Formulaire de réservation -->
+      <div v-if="showReservationForm" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4">
+          <h3 class="text-3xl font-bold mb-6 text-center text-purple-700">Réservation Soirée 18+</h3>
+          <form @submit.prevent="submitReservation" class="space-y-6">
+            <div>
+              <label for="guests" class="block text-sm font-medium text-gray-900 mb-1">Nombre d'invités</label>
+              <input 
+                type="number" 
+                id="guests" 
+                v-model.number="reservationForm.guests" 
+                required 
+                class="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200 text-gray-900"
+              >
+            </div>
+            <div>
+              <label for="date" class="block text-sm font-medium text-gray-900 mb-1">Date de l'événement</label>
+              <VueDatePicker
+                v-model="reservationForm.date"
+                :locale="locale"
+                :format="dateFormat"
+                :enable-time-picker="false"
+                :min-date="new Date()"
+                placeholder="Sélectionnez une date"
+                input-class-name="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200 text-gray-900"
+                :hide-input-icon="true"
+                required
+              />
+            </div>
+            <div>
+              <label for="email" class="block text-sm font-medium text-gray-900 mb-1">Votre email</label>
+              <input 
+                type="email" 
+                id="email" 
+                v-model="reservationForm.email" 
+                required 
+                class="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200 text-gray-900"
+              >
+            </div>
+            <div>
+              <label for="message" class="block text-sm font-medium text-gray-900 mb-1">Message (optionnel)</label>
+              <textarea 
+                id="message" 
+                v-model="reservationForm.message" 
+                rows="3" 
+                class="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200 text-gray-900"
+              ></textarea>
+            </div>
+            <div class="flex justify-end space-x-4">
+              <button 
+                type="button" 
+                @click="showReservationForm = false" 
+                class="px-6 py-2 rounded-lg text-purple-700 bg-purple-100 hover:bg-purple-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200"
+              >
+                Annuler
+              </button>
+              <button 
+                type="submit" 
+                :disabled="isSubmitting" 
+                class="px-6 py-2 rounded-lg text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200"
+              >
+                <span v-if="isSubmitting">Envoi...</span>
+                <span v-else>Réserver</span>
+              </button>
+            </div>
+          </form>
+          <div 
+            v-if="submitStatus" 
+            :class="['text-center p-4 rounded-md mt-4', submitStatus.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800']"
+          >
+            {{ submitStatus.message }}
+          </div>
+        </div>
       </div>
     </div>
     <Footer />
@@ -94,7 +184,9 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, reactive } from 'vue';
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
 
@@ -149,12 +241,27 @@ const phases = [
 const selectedPhases = ref(new Array(phases.length).fill(false));
 const selectedSecurity = ref(false);
 const securityPrice = 300;
+const totalEstimate = ref(0);
+const showReservationForm = ref(false);
+const isSubmitting = ref(false);
+const submitStatus = ref(null);
 
+// Computed property pour vérifier si des services sont sélectionnés
 const hasSelectedServices = computed(() => {
-  return selectedPhases.value.some(value => value) || selectedSecurity.value;
+  const selectedValues = [...selectedPhases.value];
+  return selectedValues.some(value => value) || selectedSecurity.value;
 });
 
-const totalEstimate = computed(() => {
+// Fonction pour mettre à jour la sélection d'une phase
+const updatePhaseSelection = (index) => {
+  const newSelectedPhases = [...selectedPhases.value];
+  newSelectedPhases[index] = !newSelectedPhases[index];
+  selectedPhases.value = newSelectedPhases;
+  updateTotalEstimate();
+};
+
+// Fonction pour mettre à jour le total estimé
+const updateTotalEstimate = () => {
   let total = 0;
   selectedPhases.value.forEach((isSelected, index) => {
     if (isSelected) {
@@ -164,9 +271,10 @@ const totalEstimate = computed(() => {
   if (selectedSecurity.value) {
     total += securityPrice;
   }
-  return total;
-});
+  totalEstimate.value = total;
+};
 
+// Fonction pour obtenir l'emoji correspondant au service
 const getEmoji = (service) => {
   if (service.includes('Accueil')) return '🎉';
   if (service.includes('Photobooth')) return '📸';
@@ -180,5 +288,62 @@ const getEmoji = (service) => {
   if (service.includes('Navettes')) return '🚗';
   if (service.includes('sécurité')) return '💪';
   return '🥳';
+};
+
+// Configuration du datepicker
+const locale = {
+  locale: 'fr',
+  format: 'dd/MM/yyyy',
+  firstDay: 1,
+  yearSuffix: '',
+  weekdays: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+  weekdaysShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+  months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+  monthsShort: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'],
+  today: "Aujourd'hui",
+  clear: 'Effacer',
+  close: 'Fermer'
+};
+
+const dateFormat = (date) => {
+  if (!date) return '';
+  return new Date(date).toLocaleDateString('fr-FR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  });
+};
+
+// Formulaire de réservation
+const reservationForm = reactive({
+  guests: '',
+  date: null,
+  email: '',
+  message: ''
+});
+
+// Fonction de soumission du formulaire
+const submitReservation = () => {
+  isSubmitting.value = true;
+  // Simulation d'un appel API
+  setTimeout(() => {
+    isSubmitting.value = false;
+    submitStatus.value = { 
+      type: 'success', 
+      message: 'Réservation de votre Soirée 18+ envoyée avec succès!' 
+    };
+    
+    // Réinitialisation du formulaire après soumission réussie
+    reservationForm.guests = '';
+    reservationForm.date = null;
+    reservationForm.email = '';
+    reservationForm.message = '';
+    
+    // Fermeture du formulaire après un délai
+    setTimeout(() => {
+      showReservationForm.value = false;
+      submitStatus.value = null;
+    }, 3000);
+  }, 2000);
 };
 </script>

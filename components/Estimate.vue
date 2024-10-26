@@ -28,7 +28,7 @@
     <div v-if="selectedFormula">
       <div v-if="selectedTheme" class="mb-8 border-2 border-purple-500 p-6 rounded-lg bg-purple-50 shadow-md">
         <h3 class="font-bold text-xl mb-3 text-purple-700">{{ selectedTheme.name }}</h3>
-        <p class="text-gray-700 leading-relaxed">{{ themeDescriptions[selectedTheme.name] }}</p>
+        <p class="text-gray-700 leading-relaxed">{{ getThemeDescription(selectedTheme.name) }}</p>
         <p v-if="initialTheme" class="mt-4 font-semibold text-purple-600">Vous avez choisi le thème {{ selectedTheme.name }}. Vous pouvez le modifier si vous le souhaitez.</p>
       </div>
       
@@ -140,8 +140,7 @@
               input-class-name="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200"
               :hide-input-icon="true"
               required
-            >
-            </VueDatePicker>
+            />
           </div>
           <div>
             <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Votre email</label>
@@ -155,21 +154,26 @@
             <button type="button" @click="showReservationForm = false" class="px-6 py-2 rounded-lg text-purple-700 bg-purple-100 hover:bg-purple-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200">
               Annuler
             </button>
-            <button type="submit" class="px-6 py-2 rounded-lg text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200">
-              Réserver
+            <button type="submit" :disabled="isSubmitting" class="px-6 py-2 rounded-lg text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200">
+              <span v-if="isSubmitting">Envoi...</span>
+              <span v-else>Réserver</span>
             </button>
           </div>
         </form>
+        <div v-if="submitStatus" :class="['text-center p-4 rounded-md mt-4', submitStatus.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800']">
+          {{ submitStatus.message }}
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, computed, watch, onMounted } from 'vue'
+import { ref, computed, watch, onMounted, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
+import { useReservationForm } from '../composables/useReservationForm'
 
 export default {
   name: 'Estimate',
@@ -189,8 +193,8 @@ export default {
   setup(props) {
     const route = useRoute()
     const router = useRouter()
-
-    // Configuration locale pour le DatePicker
+    const showReservationForm = ref(false)
+    
     const locale = {
       locale: 'fr',
       format: 'dd/MM/yyyy',
@@ -235,40 +239,24 @@ export default {
       { name: 'Urban Foot', price: 200 }
     ])
 
-    const themeDescriptions = {
-      'Super-héros': 'Plongez dans l\'univers captivant des super-héros lors d\'une journée d\'anniversaire de 4 heures, conçue spécialement pour chaque enfant en fonction de son âge et de ses goûts. Au programme, une grande activité pleine d\'aventures, un goûter festif inspiré de l\'univers des super-héros et des ateliers créatifs. Préparez-vous à vivre une journée inoubliable, pleine d\'énergie et de rires, où chaque enfant pourra libérer son imagination et se transformer en super-héros le temps d\'une fête !',
-      'Safari': 'Embarquez pour une aventure sauvage avec un anniversaire sur le thème du safari, d\'une durée de 4 heures, parfaitement adapté à chaque enfant en fonction de son âge et de ses goûts. Au programme, une grande activité pleine d\'exploration, un goûter inspiré de la jungle et des ateliers créatifs où les enfants pourront fabriquer des accessoires de safari. Préparez-vous à une journée excitante, riche en découvertes et en rires, où chaque petit explorateur pourra vivre des moments mémorables en pleine nature !',
-      'Princesse': 'Entrez dans un monde féerique avec un anniversaire sur le thème des princesses, d\'une durée de 4 heures, spécialement conçu pour chaque enfant en fonction de son âge et de ses goûts. Au programme, une grande activité magique, un goûter royal digne d\'un conte de fées, et des ateliers créatifs où les enfants pourront créer leur propre couronne ou accessoire de princesse. Préparez-vous à une journée enchantée, pleine de rires et de merveilles, où chaque enfant pourra réaliser son rêve de devenir une véritable princesse le temps d\'une fête inoubliable !',
-      'Licorne': 'Plongez dans un univers enchanté avec un anniversaire sur le thème des licornes, d\'une durée de 4 heures, conçu sur mesure pour chaque enfant en fonction de son âge et de ses goûts. Au programme, une grande activité magique, un goûter coloré inspiré des licornes, et des ateliers créatifs où les enfants pourront fabriquer leur propre corne ou accessoire féerique. Préparez-vous à une journée merveilleuse, pleine de rires et de fantaisie, où chaque enfant pourra s\'immerger dans un monde de rêve et de magie le temps d\'une fête inoubliable !',
-      'Dinosaures': 'Partez à l\'aventure dans un monde préhistorique avec un anniversaire sur le thème des dinosaures, d\'une durée de 4 heures, adapté à chaque enfant en fonction de son âge et de ses goûts. Au programme, une grande activité palpitante, un goûter jurassique, et des ateliers créatifs où les enfants pourront fabriquer leur propre fossile ou dinosaure en carton. Préparez-vous à une journée fascinante, pleine de découvertes et d\'amusement, où chaque petit explorateur pourra vivre une expérience inoubliable à l\'époque des géants !',
-      'Harry Potter': 'Entrez dans le monde magique de Harry Potter avec un anniversaire de 4 heures, spécialement conçu pour chaque enfant en fonction de son âge et de ses goûts. Au programme, une grande activité inspirée des aventures de Poudlard, un goûter magique avec des friandises de l\'univers de Harry Potter, et des ateliers créatifs où les enfants pourront créer leur propre baguette ou écusson de maison. Préparez-vous à une journée ensorcelante, pleine de rires et de magie, où chaque enfant pourra devenir un véritable sorcier le temps d\'une fête mémorable !',
-      'Espace': 'Partez pour un voyage intergalactique avec un anniversaire sur le thème de l\'espace, d\'une durée de 4 heures, adapté à chaque enfant en fonction de son âge et de ses goûts. Au programme, une grande activité d\'exploration spatiale, un goûter cosmique rempli de délices stellaires, et des ateliers créatifs où les enfants pourront créer leur propre vaisseau spatial ou étoile. Préparez-vous à une journée fascinante, pleine de découvertes et d\'amusement, où chaque petit astronaute pourra vivre une aventure spatiale inoubliable !',
-      'Pirate': 'Naviguez sur les mers du monde des pirates avec un anniversaire de 4 heures, conçu pour chaque enfant selon son âge et ses goûts. Au programme, une grande activité d\'aventure en haute mer, un goûter inspiré des trésors des pirates, et des ateliers créatifs où les enfants pourront fabriquer leur propre carte au trésor. Préparez-vous à une journée pleine de frissons et de rires, où chaque petit pirate pourra vivre une chasse au trésor inoubliable sur les océans !',
-      'Chevalier': 'Entrez dans le monde médiéval avec un anniversaire sur le thème des chevaliers, d\'une durée de 4 heures, spécialement conçu pour chaque enfant en fonction de son âge et de ses goûts. Au programme, une grande activité d\'aventure chevaleresque, un goûter royal inspiré des banquets médiévaux, et des ateliers créatifs où les enfants pourront fabriquer leur propre épée ou bouclier. Préparez-vous à une journée remplie de courage et de rires, où chaque petit chevalier pourra vivre des exploits dignes des plus grands héros !',
-      'Détective': 'Plongez dans le monde des enquêtes avec un anniversaire sur le thème des détectives, d\'une durée de 4 heures, conçu sur mesure pour chaque enfant en fonction de son âge et de ses goûts. Au programme, une grande activité d\'enquête où les enfants résoudront des mystères, un goûter inspiré des détectives, et des ateliers créatifs où ils pourront créer leur propre carnet de détective ou loupe. Préparez-vous à une journée pleine de suspense et de rires, où chaque petit détective pourra vivre une aventure inoubliable en résolvant des énigmes !',
-      'Mario': 'Plongez dans l\'univers coloré de Mario avec un anniversaire de 4 heures, conçu spécialement pour chaque enfant en fonction de son âge et de ses goûts. Au programme, une grande activité de jeu inspirée des aventures de Mario, un goûter festif avec des douceurs en forme de champignon et de personnages, et des ateliers créatifs où les enfants pourront créer leurs propres casquettes de Mario ou décorations de niveau. Préparez-vous à une journée pleine d\'amusement et de rires, où chaque enfant pourra vivre des aventures aussi folles que dans le monde des jeux vidéo !',
-      'Star Wars': 'Entrez dans la galaxie lointaine de Star Wars avec un anniversaire de 4 heures, spécialement conçu pour chaque enfant selon son âge et ses goûts. Au programme, une grande activité intergalactique pleine d\'action, un goûter galactique avec des friandises inspirées de l\'univers de Star Wars, et des ateliers créatifs où les enfants pourront fabriquer leur propre sabre laser ou vaisseau spatial. Préparez-vous à une journée épique, pleine d\'aventures et de magie, où chaque enfant pourra devenir un héros de la saga le temps d\'une fête inoubliable !',
-      'Pokémon': 'Entrez dans le monde fascinant des Pokémon avec un anniversaire de 4 heures, spécialement conçu pour chaque enfant selon son âge et ses goûts. Au programme, une grande activité de chasse aux Pokémon, un goûter inspiré de l\'univers Pokémon avec des douceurs thématiques, et des ateliers créatifs où les enfants pourront créer leurs propres cartes ou figurines de Pokémon. Préparez-vous à une journée remplie d\'aventures et de découvertes, où chaque enfant pourra devenir un véritable maître Pokémon le temps d\'une fête inoubliable !',
-      'Sport': 'Vibrez au rythme du sport avec un anniversaire de 4 heures, conçu spécialement pour chaque enfant en fonction de son âge et de ses goûts. Au programme, une grande activité sportive avec des jeux et des défis amusants, un goûter énergique avec des collations saines, et des ateliers créatifs où les enfants pourront personnaliser leurs propres t-shirts ou médailles. Préparez-vous à une journée pleine d\'action et de rires, où chaque petit sportif pourra briller et célébrer l\'esprit d\'équipe !',
-      'Casino Kids': "Plongez dans l'univers captivant des jeux et du divertissement avec un anniversaire sur le thème du casino, pensé pour émerveiller les enfants pendant 4 heures. Adaptée à chaque âge, cette fête propose des jeux de hasard et de stratégie, revisités pour les plus jeunes, comme des roulettes, des cartes, et des défis amusants. Le goûter festif, inspiré de l'univers des casinos, sera suivi d'activités ludiques où chacun pourra tester sa chance et son esprit d'équipe. Préparez-vous à vivre une journée pleine de suspense et de fous rires où chaque enfant sera le grand gagnant !",
-      'Olympiades': "Transformez l'anniversaire de votre enfant en un véritable tournoi olympique de 4 heures, avec des défis sportifs et ludiques adaptés à tous les âges. Au programme, des épreuves amusantes où chaque enfant pourra donner le meilleur de lui-même, en s'affrontant dans des courses, des jeux d'adresse et des défis d'équipe. Après s'être bien dépensés, ils partageront un goûter énergisant, avant de poursuivre avec des ateliers créatifs sur le thème des sports. Une journée pleine de dynamisme, où rires et camaraderie seront les maîtres-mots, pour un anniversaire inoubliable !",
-      'Atelier DIY': "Laissez libre cours à la créativité des enfants lors d'un anniversaire DIY de 4 heures, spécialement conçu pour tous les petits artistes en herbe ! Chaque enfant pourra participer à des ateliers personnalisés, adaptés à son âge et à ses goûts, où ils créeront leurs propres œuvres d'art, bijoux, ou objets déco. Après un goûter festif et coloré, les enfants repartiront avec leurs créations uniques comme souvenir. Préparez-vous à une journée pleine de créativité, de fun et d'imagination, où chaque enfant pourra laisser sa marque et s'exprimer librement à travers ses réalisations !",
-      'Urban Foot': "Transformez l'anniversaire de votre enfant en un événement sportif palpitant avec notre thème Urban Foot ! Pendant 4 heures, les enfants vivront l'excitation d'un vrai tournoi de football urbain, adapté à tous les âges et niveaux. Au programme : des matchs endiablés sur des mini-terrains, des défis techniques amusants, et des jeux d'équipe qui favorisent l'esprit sportif. Après l'effort, un goûter énergisant les attend, suivi d'activités créatives sur le thème du football. Une journée remplie d'action, de rires et de camaraderie, pour un anniversaire qui marquera tous les petits champions !"
-    }
-
     const themeOptions = ref([])
 
     const selectedTheme = ref(null)
     const selectedFormula = ref(null)
     const devisGenerated = ref(false)
     const devisSection = ref(null)
-    const showReservationForm = ref(false)
-    const reservationForm = ref({
+    const reservationForm = reactive({
       guests: '',
       date: null,
       email: '',
-      message: ''
+      message: '',
+      selectedFormula: computed(() => selectedFormula.value === 1 ? 'Formule 1' : 'Formule 2'),
+      selectedTheme: computed(() => selectedTheme.value),
+      selectedOptions: computed(() => selectedOptions.value),
+      totalPrice: computed(() => totalPrice.value)
     })
+
+    const { isSubmitting, submitStatus, submitForm } = useReservationForm(reservationForm)
 
     const selectedOptions = computed(() => {
       return themeOptions.value.filter(option => option.selected)
@@ -333,35 +321,7 @@ export default {
     }
 
     function submitReservation() {
-      const formattedDate = reservationForm.value.date ? dateFormat(reservationForm.value.date) : ''
-      
-      const recap = `
-Récapitulatif de votre réservation :
-
-Formule : ${selectedFormula.value === 1 ? 'Formule 1' : 'Formule 2'}
-${selectedTheme.value ? `Thème : ${selectedTheme.value.name}` : ''}
-Options sélectionnées :
-${selectedOptions.value.map(option => `- ${option.name}: ${option.price}€`).join('\n')}
-
-Total : ${totalPrice.value}€
-
-Détails de la réservation :
-Nombre d'invités : ${reservationForm.value.guests}
-Date de l'événement : ${formattedDate}
-Email : ${reservationForm.value.email}
-Message : ${reservationForm.value.message}
-      `
-
-      console.log('Récapitulatif de la réservation:', recap)
-
-      // Réinitialiser le formulaire
-      reservationForm.value = {
-        guests: '',
-        date: null,
-        email: '',
-        message: ''
-      }
-      showReservationForm.value = false
+      submitForm()
     }
 
     const normalizeString = (str) => {
@@ -373,42 +333,66 @@ Message : ${reservationForm.value.message}
         'ù': 'u', 'ú': 'u', 'û': 'u', 'ü': 'u',
         'ý': 'y', 'ÿ': 'y',
         'ñ': 'n'
-      };
+      }
       return str.toLowerCase()
         .replace(/[àáâãäåèéêëìíîïòóôõöùúûüýÿñ]/g, match => accentsMap[match] || match)
-        .replace(/[^a-z0-9]/g, '');
-    };
+        .replace(/[^a-z0-9]/g, '')
+    }
 
     const findTheme = (themeName) => {
-      if (!themeName) return null;
-      const normalizedSearchName = normalizeString(themeName);
-      return themes.value.find(t => normalizeString(t.name) === normalizedSearchName);
-    };
+      if (!themeName) return null
+      const normalizedSearchName = normalizeString(themeName)
+      return themes.value.find(t => normalizeString(t.name) === normalizedSearchName)
+    }
+
+    const getThemeDescription = (themeName) => {
+      const descriptions = {
+        "Super-héros": "Plongez dans l'univers des super-héros avec des costumes, des jeux de rôle et des activités passionnantes.",
+        "Safari": "Partez à l'aventure dans la savane avec des décorations d'animaux, des jeux de piste et des activités sur le thème de la nature.",
+        "Princesse": "Transformez la fête en un conte de fées royal avec des robes, des couronnes et des activités dignes d'un château.",
+        "Licorne": "Entrez dans un monde magique et coloré avec des décorations scintillantes, des jeux enchantés et des friandises arc-en-ciel.",
+        "Dinosaures": "Remontez le temps jusqu'à l'ère préhistorique avec des fossiles, des jeux d'exploration et des activités sur le thème des dinosaures.",
+        "Harry Potter": "Plongez dans le monde magique de Poudlard avec des baguettes, des potions et des jeux inspirés de la célèbre série.",
+        "Espace": "Partez en mission spatiale avec des décorations galactiques, des jeux d'astronautes et des activités sur le thème de l'espace.",
+        "Pirate": "Embarquez pour une aventure sur les mers avec des chasses au trésor, des costumes de pirates et des jeux de navigation.",
+        "Chevalier": "Voyagez dans le temps médiéval avec des tournois, des quêtes héroïques et des activités chevaleresques.",
+        "Détective": "Résolvez des mystères passionnants avec des énigmes, des jeux de déduction et des activités d'enquête.",
+        "Mario": "Plongez dans l'univers coloré de Mario avec des jeux de plateforme, des power-ups et des activités inspirées du jeu vidéo.",
+        "Star Wars": "Vivez une aventure intergalactique avec des sabres laser, des missions spatiales et des activités inspirées de la saga.",
+        "Pokémon": "Devenez un maître Pokémon avec des jeux de capture, des combats amicaux et des activités sur le thème des créatures Pokémon.",
+        "Sport": "Célébrez l'esprit sportif avec des mini-olympiades, des jeux d'équipe et des activités physiques amusantes.",
+        "Casino Kids": "Profitez d'une ambiance de casino adaptée aux enfants avec des jeux de cartes, des machines à sous factices et des activités de hasard.",
+        "Olympiades": "Organisez des mini-jeux olympiques avec des épreuves variées, des médailles et un esprit de compétition amical.",
+        "Atelier DIY": "Stimulez la créativité avec des ateliers de bricolage, des projets artistiques et des activités manuelles.",
+        "Urban Foot": "Combinez football et culture urbaine avec des mini-matchs, du freestyle et des activités street art."
+      }
+      return descriptions[themeName] || "Description non disponible pour ce thème."
+    }
 
     const handleThemeSelection = (newTheme) => {
       if (newTheme) {
-        const theme = findTheme(newTheme);
+        const theme = findTheme(newTheme)
         if (theme) {
-          selectedTheme.value = theme;
-          selectedFormula.value = 2;
-          updateThemeOptions();
+          selectedTheme.value = theme
+          selectedFormula.value = 2
+          updateThemeOptions()
         }
       } else {
-        selectedTheme.value = null;
-        themeOptions.value = [];
+        selectedTheme.value = null
+        themeOptions.value = []
       }
-    };
+    }
 
     watch(() => props.initialTheme, handleThemeSelection, { immediate: true })
     watch(() => route.query.theme, handleThemeSelection, { immediate: true })
 
     onMounted(() => {
       if (props.initialFormula) {
-        selectFormula(props.initialFormula);
+        selectFormula(props.initialFormula)
       } else if (route.query.formula) {
-        const formula = parseInt(route.query.formula);
+        const formula = parseInt(route.query.formula)
         if (formula === 1 || formula === 2) {
-          selectFormula(formula);
+          selectFormula(formula)
         }
       }
     })
@@ -424,7 +408,7 @@ Message : ${reservationForm.value.message}
       selectTheme,
       selectFormula,
       generateDevis,
-      themeDescriptions,
+      getThemeDescription,
       initialTheme: props.initialTheme,
       toggleOption,
       devisSection,
@@ -432,7 +416,10 @@ Message : ${reservationForm.value.message}
       reservationForm,
       submitReservation,
       locale,
-      dateFormat
+      dateFormat,
+      isSubmitting,
+      submitStatus,
+      submitForm
     }
   }
 }
