@@ -2,6 +2,9 @@
 import nodemailer from 'nodemailer'
 import { join } from 'path'
 
+console.log(process.env.EMAIL_USER)
+console.log(process.env.EMAIL_PASS)
+
 // Configuration du transporteur email
 const transporter = nodemailer.createTransport({
   host: 'smtp.hostinger.com',

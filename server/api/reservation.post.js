@@ -1,13 +1,18 @@
 import nodemailer from 'nodemailer'
 
+const config = useRuntimeConfig()
+
+console.log(config.emailUser) // Utilisateur de l'email
+console.log(config.emailPass)
+
 // Configuration du transporteur email
 const transporter = nodemailer.createTransport({
   host: 'smtp.hostinger.com',
   port: 465,
   secure: true,
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
+    user: config.emailUser,
+    pass: config.emailPass
   }
 })
 

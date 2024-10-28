@@ -21,5 +21,11 @@ export default defineNuxtConfig({
     routeRules: {
       '/api/**': { cors: true }
     }
+  },
+
+  runtimeConfig: {
+    // Variables côté serveur
+    emailUser: process.env.NUXT_EMAIL_USER,
+    emailPass: process.env.NUXT_EMAIL_PASS,
   }
 })
