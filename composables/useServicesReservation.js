@@ -13,7 +13,8 @@ export const useServicesReservation = (form, selectedServices, totalEstimate) =>
       phone: form.value.phone,
       message: form.value.message,
       services: JSON.parse(JSON.stringify(selectedServices.value)),
-      totalEstimate: totalEstimate.value
+      totalEstimate: totalEstimate.value,
+      eventType: form.value.eventType
     }
   }
 

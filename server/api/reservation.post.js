@@ -17,6 +17,12 @@ const isValidEmail = (email) => {
   return emailRegex.test(email)
 }
 
+// Validation du format téléphone
+const isValidPhone = (phone) => {
+  const phoneRegex = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/
+  return phoneRegex.test(phone)
+}
+
 // Validation de la date
 const isValidDate = (date) => {
   const selectedDate = new Date(date)
@@ -49,6 +55,7 @@ const createHtmlContent = (data) => {
     guests,
     date,
     email,
+    phone,
     message,
     selectedFormula,
     selectedTheme,
@@ -84,6 +91,7 @@ const createHtmlContent = (data) => {
       <div style="background-color: #F9FAFB; padding: 20px; border-radius: 8px;">
         <h3 style="color: #6B21A8;">Informations de contact</h3>
         <p><strong>Email :</strong> ${email}</p>
+        <p><strong>Téléphone :</strong> ${phone}</p>
         ${message ? `<p><strong>Message :</strong> ${message}</p>` : '<p><strong>Message :</strong> Aucun message</p>'}
       </div>
     </div>
@@ -94,10 +102,10 @@ export default defineEventHandler(async (event) => {
   try {
     // Récupération et validation des données
     const body = await readBody(event)
-    const { guests, date, email, message, selectedFormula, selectedTheme, selectedOptions, totalPrice } = body
+    const { guests, date, email, phone, message, selectedFormula, selectedTheme, selectedOptions, totalPrice } = body
 
     // Validations
-    if (!email || !guests || !date || !selectedFormula) {
+    if (!email || !guests || !date || !selectedFormula || !phone) {
       throw createError({
         statusCode: 400,
         statusMessage: 'Données de réservation incomplètes'
@@ -108,6 +116,13 @@ export default defineEventHandler(async (event) => {
       throw createError({
         statusCode: 400,
         statusMessage: 'Format d\'email invalide'
+      })
+    }
+
+    if (!isValidPhone(phone)) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'Format de téléphone invalide'
       })
     }
 
@@ -139,6 +154,7 @@ export default defineEventHandler(async (event) => {
         
     Contact :
     Email : ${email}
+    Téléphone : ${phone}
     Message : ${message || 'Aucun message'}
   `
     // Envoi de l'email

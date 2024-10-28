@@ -1,6 +1,5 @@
 // server/api/services-reservation.post.js
 import nodemailer from 'nodemailer'
-import { readFileSync } from 'fs'
 import { join } from 'path'
 
 // Configuration du transporteur email
@@ -37,7 +36,8 @@ const formatDate = (dateString) => {
     day: 'numeric'
   })
 }
-//validation du phone
+
+// Validation du phone
 const isValidPhone = (phone) => {
   const phoneRegex = /^\d{10}$/
   return phoneRegex.test(phone)
@@ -53,7 +53,7 @@ const formatPrice = (price) => {
 
 // Fonction auxiliaire pour capitaliser la première lettre
 const capitalizeFirstLetter = (string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+  return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
 const createHtmlContent = (data) => {
@@ -64,7 +64,8 @@ const createHtmlContent = (data) => {
     phone,
     message,
     services,
-    totalEstimate
+    totalEstimate,
+    eventType
   } = data
 
   const selectedServices = Object.entries(services)
@@ -74,11 +75,11 @@ const createHtmlContent = (data) => {
   return `
     <meta name="color-scheme" content="light dark">
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-
-      <h2 style="color: #f99bd4; text-align: center; margin-bottom: 30px;">Nouvelle Réservation Afterwork</h2>
+      <h2 style="color: #f99bd4; text-align: center; margin-bottom: 30px;">Nouvelle Réservation ${eventType}</h2>
       
       <div style="border-radius: 8px; margin: 20px 0; border: 1px solid #f99bd4; background-color: rgba(249, 155, 212, 0.1); padding: 20px;">
         <h3 style="color: #f99bd4; margin-top: 0;">Détails de la réservation</h3>
+        <p><strong style="color: #f99bd4;">Type d'événement :</strong> ${eventType}</p>
         <p><strong style="color: #f99bd4;">Date :</strong> ${formatDate(date)}</p>
         <p><strong style="color: #f99bd4;">Nombre d'invités :</strong> ${guests}</p>
         
@@ -109,6 +110,9 @@ const createHtmlContent = (data) => {
           © ${new Date().getFullYear()} 4You Event - Tous droits réservés
         </p>
       </div>
+      <div style="text-align: center; margin-bottom: 20px;">
+        <img src="https://4you-event.fr/img/logo.png" alt="4You Event" style="max-width: 150px;">
+      </div>
     </div>
   `
 }
@@ -131,20 +135,16 @@ const confirmationFooter = `
       Cordialement,<br>
       <span style="color: #f99bd4; font-weight: bold;">L'équipe 4You Event</span>
     </p>
-    <div style="text-align: center; margin-bottom: 20px;">
-        <img src="cid:logo" alt="4You Event" style="max-width: 150px;">
-      </div>
   </div>
 `
-
 
 export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event)
-    const { guests, date, email, phone, message, services, totalEstimate } = body
+    const { guests, date, email, phone, message, services, totalEstimate, eventType } = body
 
     // Validations
-    if (!email || !guests || !date || !services || !phone) {
+    if (!email || !guests || !date || !services || !phone || !eventType) {
       throw createError({
         statusCode: 400,
         statusMessage: 'Données de réservation incomplètes'
@@ -179,14 +179,11 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    // Lecture du logo
-    const logoPath = join(process.cwd(), 'public', 'img', 'logo.png')
-    const logoContent = readFileSync(logoPath)
-
     const htmlContent = createHtmlContent(body)
     const textContent = `
-      Récapitulatif de la réservation Afterwork :
+      Récapitulatif de la réservation :
       
+      Type d'événement : ${eventType}
       Date : ${formatDate(date)}
       Nombre d'invités : ${guests}
       Services sélectionnés : ${Object.entries(services)
@@ -197,6 +194,7 @@ export default defineEventHandler(async (event) => {
       
       Contact :
       Email : ${email}
+      Téléphone : ${phone}
       Message : ${message || 'Aucun message'}
     `
 
@@ -205,21 +203,16 @@ export default defineEventHandler(async (event) => {
       from: process.env.EMAIL_USER,
       to: "contact@4you-event.fr",
       cc: process.env.EMAIL_CC,
-      subject: `Nouvelle réservation Afterwork`,
+      subject: `Nouvelle réservation ${eventType}`,
       text: textContent,
-      html: htmlContent,
-      attachments: [{
-        filename: 'logo.png',
-        content: logoContent,
-        cid: 'logo'
-      }]
+      html: htmlContent
     })
 
     // Email de confirmation au client
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: email,
-      subject: "Confirmation de votre demande de réservation Afterwork",
+      subject: `Confirmation de votre demande de réservation`,
       text: textContent,
       html: `
         <div>
@@ -227,12 +220,7 @@ export default defineEventHandler(async (event) => {
           ${createHtmlContent(body)}
           ${confirmationFooter}
         </div>
-      `,
-      attachments: [{
-        filename: 'logo.png',
-        content: logoContent,
-        cid: 'logo'
-      }]
+      `
     })
 
     return { 

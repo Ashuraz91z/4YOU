@@ -137,14 +137,19 @@
               :enable-time-picker="false"
               :min-date="new Date()"
               placeholder="Sélectionnez une date"
-              input-class-name="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200"
+              input-class-name="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200 text-black"
               :hide-input-icon="true"
               required
+              class="custom-datepicker"
             />
           </div>
           <div>
             <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Votre email</label>
             <input type="email" id="email" v-model="reservationForm.email" required class="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200">
+          </div>
+          <div>
+            <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Votre numéro de téléphone</label>
+            <input type="tel" id="phone" v-model="reservationForm.phone" required class="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200">
           </div>
           <div>
             <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message (optionnel)</label>
@@ -249,6 +254,7 @@ export default {
       guests: '',
       date: null,
       email: '',
+      phone: '',
       message: '',
       selectedFormula: computed(() => selectedFormula.value === 1 ? 'Formule 1' : 'Formule 2'),
       selectedTheme: computed(() => selectedTheme.value),
@@ -434,16 +440,15 @@ export default {
   width: 100%;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
-  border-width: 2px;
-  border-color: rgb(216 180 254);
-  transition-property: all;
-  transition-duration: 200ms;
+  border: 2px solid rgb(216 180 254);
+  transition: all 0.2s;
+  background-color: white;
 }
 
 .dp__input:focus {
   outline: none;
-  border-color: rgb(168 85 247);
-  box-shadow: 0 0 0 4px rgb(216 180 254 / 0.25);
+  border-color: rgb(147 51 234);
+  box-shadow: 0 0 0 4px rgba(147, 51, 234, 0.1);
 }
 
 .dp__input::placeholder {
@@ -452,33 +457,65 @@ export default {
 
 .dp__calendar_header {
   color: rgb(107 114 128);
+  font-weight: 600;
 }
 
 .dp__today {
-  background-color: rgb(233 213 255);
-  color: rgb(126 34 206);
+  background-color: rgb(243 232 255);
+  color: rgb(147 51 234);
+  font-weight: bold;
 }
 
 .dp__active_date {
-  background-color: rgb(147 51 234);
-  color: white;
+  background-color: rgb(147 51 234) !important;
+  color: white !important;
 }
 
-.dp__date_hover {
+.dp__date_hover:hover {
   background-color: rgb(233 213 255);
-  color: rgb(126 34 206);
+  color: rgb(147 51 234);
 }
 
 .dp__disabled {
   color: rgb(209 213 219);
 }
 
-.dp__range_start, .dp__range_end, .dp__range_between {
+.dp__range_start, .dp__range_end {
   background-color: rgb(147 51 234);
   color: white;
 }
 
+.dp__range_between {
+  background-color: rgb(233 213 255);
+}
+
 .dp__month_year_select {
   color: rgb(107 114 128);
+  font-weight: 600;
+}
+
+.dp__overlay_cell_active {
+  background-color: rgb(147 51 234) !important;
+  color: white !important;
+}
+
+.dp__overlay_cell:hover {
+  background-color: rgb(233 213 255);
+  color: rgb(147 51 234);
+}
+
+.dp__calendar_wrap {
+  padding: 1rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.dp__arrow_top {
+  display: none;
+}
+
+.dp__month_year_select {
+  color: rgb(147 51 234) !important;
 }
 </style>

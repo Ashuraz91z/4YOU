@@ -5,122 +5,176 @@
       <h1 class="text-5xl font-bold mb-12 text-center font-dancing-script text-amber-200">Soirée 18+</h1>
       
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <section v-for="(phase, index) in phases" :key="index" class="bg-white/10 p-8 rounded-lg backdrop-blur-sm border border-amber-300">
-          <h2 class="text-2xl font-bold mb-6 font-pacifico text-amber-200">{{ phase.title }}</h2>
-          <div class="mb-4">
-            <h3 class="text-xl font-medium mb-2 text-amber-100">Services proposés :</h3>
-            <ul class="space-y-3">
-              <li v-for="(service, sIndex) in phase.services" :key="sIndex" class="flex items-center">
-                <span class="mr-2">{{ getEmoji(service) }}</span> {{ service }}
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 class="text-xl font-medium mb-2 text-amber-100">Ambiance :</h3>
-            <p>{{ phase.ambiance }}</p>
-          </div>
-          <div class="mt-4 flex items-center justify-between">
-            <span class="text-amber-300 h-10 flex items-center">{{ phase.price }} €</span>
-            <label :for="'phase-' + index" class="flex items-center cursor-pointer">
-              <input 
-                type="checkbox" 
-                :id="'phase-' + index" 
-                :checked="selectedPhases[index]"
-                @change="() => updatePhaseSelection(index)"
-                class="mr-2 hidden"
-              >
+        <section class="bg-white/10 p-8 rounded-lg backdrop-blur-sm">
+          <h2 class="text-2xl font-bold mb-6 font-pacifico text-amber-200">Accueil VIP des Invités</h2>
+          <ul class="space-y-3">
+            <li class="flex items-center">
+              <span class="mr-2">🎉</span> Tapis rouge et photographe professionnel
+            </li>
+            <li class="flex items-center">
+              <span class="mr-2">📸</span> Photobooth interactif avec accessoires fun
+            </li>
+            <li class="flex items-center">
+              <span class="mr-2">🎵</span> Musique d'ambiance lounge avec un DJ d'accueil
+            </li>
+            <li class="flex items-center">
+              <span class="mr-2">✨</span> Éclairage tamisé et ambiance exclusive
+            </li>
+          </ul>
+          <div class="mt-6 flex items-center justify-between">
+            <span class="text-amber-200 h-10 flex items-center">{{ prices.accueil }} €</span>
+            <label for="accueil" class="flex items-center cursor-pointer">
+              <input type="checkbox" id="accueil" v-model="selectedServices.accueil" class="mr-2 hidden">
               <span 
                 class="px-4 py-2 rounded-full transition-colors duration-200 ease-in-out inline-block w-40 text-center"
-                :class="selectedPhases[index] ? 'bg-amber-400 text-indigo-900 font-bold' : 'bg-transparent border-2 border-amber-300 text-amber-300'"
+                :class="selectedServices.accueil ? 'bg-amber-400 text-indigo-900 font-bold' : 'bg-transparent border-2 border-amber-200 text-amber-200'"
               >
-                {{ selectedPhases[index] ? 'Sélectionné ✓' : 'Sélectionner' }}
+                {{ selectedServices.accueil ? 'Sélectionné ✓' : 'Sélectionner' }}
               </span>
             </label>
           </div>
         </section>
 
-        <section class="bg-white/10 p-8 rounded-lg backdrop-blur-sm border border-amber-300">
-          <h2 class="text-2xl font-bold mb-6 font-pacifico text-amber-200">Service de Sécurité</h2>
-          <div class="mb-4">
-            <h3 class="text-xl font-medium mb-2 text-amber-100">Services proposés :</h3>
-            <ul class="space-y-3">
-              <li class="flex items-center">
-                <span class="mr-2">{{ getEmoji('Système de sécurité') }}</span> Système de sécurité (vigile)
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 class="text-xl font-medium mb-2 text-amber-100">Ambiance :</h3>
-            <p>Sécurité discrète mais efficace pour assurer le bon déroulement de l'événement</p>
-          </div>
-          <div class="mt-4 flex items-center justify-between">
-            <span class="text-amber-300 h-10 flex items-center">{{ securityPrice }} €</span>
-            <label for="security" class="flex items-center cursor-pointer">
-              <input 
-                type="checkbox" 
-                id="security" 
-                v-model="selectedSecurity" 
-                @change="updateTotalEstimate" 
-                class="mr-2 hidden"
-              >
+        <section class="bg-white/10 p-8 rounded-lg backdrop-blur-sm">
+          <h2 class="text-2xl font-bold mb-6 font-pacifico text-amber-200">Apéritif & Cocktails</h2>
+          <ul class="space-y-3">
+            <li class="flex items-center">
+              <span class="mr-2">🍸</span> Bar à Cocktails créatifs
+            </li>
+            <li class="flex items-center">
+              <span class="mr-2">👨‍🍳</span> Barmans talentueux
+            </li>
+            <li class="flex items-center">
+              <span class="mr-2">🍽️</span> Buffet d'Apéritifs
+            </li>
+            <li class="flex items-center">
+              <span class="mr-2">🎭</span> Show culinaire en direct
+            </li>
+          </ul>
+          <div class="mt-6 flex items-center justify-between">
+            <span class="text-amber-200 h-10 flex items-center">{{ prices.aperitif }} €</span>
+            <label for="aperitif" class="flex items-center cursor-pointer">
+              <input type="checkbox" id="aperitif" v-model="selectedServices.aperitif" class="mr-2 hidden">
               <span 
                 class="px-4 py-2 rounded-full transition-colors duration-200 ease-in-out inline-block w-40 text-center"
-                :class="selectedSecurity ? 'bg-amber-400 text-indigo-900 font-bold' : 'bg-transparent border-2 border-amber-300 text-amber-300'"
+                :class="selectedServices.aperitif ? 'bg-amber-400 text-indigo-900 font-bold' : 'bg-transparent border-2 border-amber-200 text-amber-200'"
               >
-                {{ selectedSecurity ? 'Sélectionné ✓' : 'Sélectionner' }}
+                {{ selectedServices.aperitif ? 'Sélectionné ✓' : 'Sélectionner' }}
+              </span>
+            </label>
+          </div>
+        </section>
+
+        <section class="bg-white/10 p-8 rounded-lg backdrop-blur-sm">
+          <h2 class="text-2xl font-bold mb-6 font-pacifico text-amber-200">Animation & Musique</h2>
+          <ul class="space-y-3">
+            <li class="flex items-center">
+              <span class="mr-2">🎧</span> DJ renommé pour un set exclusif
+            </li>
+            <li class="flex items-center">
+              <span class="mr-2">💫</span> Show laser spectaculaire
+            </li>
+            <li class="flex items-center">
+              <span class="mr-2">💃</span> Performances de danseurs
+            </li>
+            <li class="flex items-center">
+              <span class="mr-2">🎵</span> Mix de house, EDM et hits
+            </li>
+          </ul>
+          <div class="mt-6 flex items-center justify-between">
+            <span class="text-amber-200 h-10 flex items-center">{{ prices.animation }} €</span>
+            <label for="animation" class="flex items-center cursor-pointer">
+              <input type="checkbox" id="animation" v-model="selectedServices.animation" class="mr-2 hidden">
+              <span 
+                class="px-4 py-2 rounded-full transition-colors duration-200 ease-in-out inline-block w-40 text-center"
+                :class="selectedServices.animation ? 'bg-amber-400 text-indigo-900 font-bold' : 'bg-transparent border-2 border-amber-200 text-amber-200'"
+              >
+                {{ selectedServices.animation ? 'Sélectionné ✓' : 'Sélectionner' }}
+              </span>
+            </label>
+          </div>
+        </section>
+
+        <section class="bg-white/10 p-8 rounded-lg backdrop-blur-sm">
+          <h2 class="text-2xl font-bold mb-6 font-pacifico text-amber-200">Sécurité & Services</h2>
+          <ul class="space-y-3">
+            <li class="flex items-center">
+              <span class="mr-2">💪</span> Service de sécurité professionnel
+            </li>
+            <li class="flex items-center">
+              <span class="mr-2">🚗</span> Service de navettes disponible
+            </li>
+            <li class="flex items-center">
+              <span class="mr-2">🎁</span> Packs VIP 'souvenirs'
+            </li>
+            <li class="flex items-center">
+              <span class="mr-2">📸</span> Vidéaste pour l'événement
+            </li>
+          </ul>
+          <div class="mt-6 flex items-center justify-between">
+            <span class="text-amber-200 h-10 flex items-center">{{ prices.securite }} €</span>
+            <label for="securite" class="flex items-center cursor-pointer">
+              <input type="checkbox" id="securite" v-model="selectedServices.securite" class="mr-2 hidden">
+              <span 
+                class="px-4 py-2 rounded-full transition-colors duration-200 ease-in-out inline-block w-40 text-center"
+                :class="selectedServices.securite ? 'bg-amber-400 text-indigo-900 font-bold' : 'bg-transparent border-2 border-amber-200 text-amber-200'"
+              >
+                {{ selectedServices.securite ? 'Sélectionné ✓' : 'Sélectionner' }}
               </span>
             </label>
           </div>
         </section>
       </div>
 
-      <section v-if="hasSelectedServices" class="bg-white/10 p-8 rounded-lg backdrop-blur-sm mt-8">
-        <h2 class="text-2xl font-bold mb-6 font-pacifico text-amber-200">Votre Devis (Estimation)</h2>
-        <ul class="space-y-3">
-          <li v-for="(phase, index) in phases" :key="index" v-if="selectedPhases[index]" class="flex items-center justify-between">
-            <span>{{ phase.title }}</span>
-            <span>{{ phase.price }} €</span>
+      <section class="bg-white/10 p-8 rounded-lg backdrop-blur-sm mt-8">
+        <h2 class="text-2xl font-bold mb-6 font-pacifico text-amber-200">Devis Estimatif</h2>
+        <ul class="space-y-4">
+          <li v-if="selectedServices.accueil" class="flex items-center justify-between">
+            <span>Accueil VIP des Invités</span>
+            <span>{{ prices.accueil }} €</span>
           </li>
-          <li v-if="selectedSecurity" class="flex items-center justify-between">
-            <span>Système de sécurité (vigile)</span>
-            <span>{{ securityPrice }} €</span>
+          <li v-if="selectedServices.aperitif" class="flex items-center justify-between">
+            <span>Apéritif & Cocktails</span>
+            <span>{{ prices.aperitif }} €</span>
+          </li>
+          <li v-if="selectedServices.animation" class="flex items-center justify-between">
+            <span>Animation & Musique</span>
+            <span>{{ prices.animation }} €</span>
+          </li>
+          <li v-if="selectedServices.securite" class="flex items-center justify-between">
+            <span>Sécurité & Services</span>
+            <span>{{ prices.securite }} €</span>
           </li>
         </ul>
         <div class="mt-6 pt-4 border-t border-white/20">
           <p class="text-xl font-bold flex justify-between">
-            <span>Total estimé:</span>
+            <span>Total:</span>
             <span>{{ totalEstimate }} €</span>
           </p>
-          <p class="text-sm italic mt-2">Cette estimation est fournie à titre indicatif et peut varier en fonction des détails spécifiques de votre événement.</p>
+          <p class="text-sm italic mt-2">Ce devis est fourni à titre indicatif et peut varier en fonction du nombre d'invités et des détails spécifiques de votre événement.</p>
         </div>
-      </section>
-
-      <div class="text-center mt-16">
         <button 
+          type="button"
           @click="showReservationForm = true" 
-          class="bg-amber-400 hover:bg-amber-500 text-indigo-900 font-bold py-4 px-8 rounded-full text-xl transition duration-300 ease-in-out transform hover:scale-105"
+          class="mt-4 px-4 py-2 bg-amber-400 text-indigo-900 font-bold rounded-full w-full hover:bg-amber-500 transition-colors"
+          :disabled="!hasSelectedServices"
         >
-          Réserver votre Soirée 18+
+          Demander un devis
         </button>
-      </div>
+      </section>
 
       <!-- Formulaire de réservation -->
       <div v-if="showReservationForm" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
         <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4">
-          <h3 class="text-3xl font-bold mb-6 text-center text-purple-700">Réservation Soirée 18+</h3>
-          <form @submit.prevent="submitReservation" class="space-y-6">
+          <h3 class="text-3xl font-bold mb-6 text-center text-purple-700">Réservation</h3>
+
+          <form @submit.prevent="handleSubmit" class="space-y-6">
             <div>
-              <label for="guests" class="block text-sm font-medium text-gray-900 mb-1">Nombre d'invités</label>
-              <input 
-                type="number" 
-                id="guests" 
-                v-model.number="reservationForm.guests" 
-                required 
-                class="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200 text-gray-900"
-              >
+              <label for="guests" class="block text-sm font-medium text-gray-700 mb-1">Nombre d'invités</label>
+              <input type="number" id="guests" v-model="reservationForm.guests" required class="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200 text-black">
             </div>
             <div>
-              <label for="date" class="block text-sm font-medium text-gray-900 mb-1">Date de l'événement</label>
+              <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Date de l'événement</label>
               <VueDatePicker
                 v-model="reservationForm.date"
                 :locale="locale"
@@ -128,51 +182,55 @@
                 :enable-time-picker="false"
                 :min-date="new Date()"
                 placeholder="Sélectionnez une date"
-                input-class-name="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200 text-gray-900"
+                input-class-name="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200 text-black"
                 :hide-input-icon="true"
                 required
-              />
-            </div>
-            <div>
-              <label for="email" class="block text-sm font-medium text-gray-900 mb-1">Votre email</label>
-              <input 
-                type="email" 
-                id="email" 
-                v-model="reservationForm.email" 
-                required 
-                class="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200 text-gray-900"
+                class="custom-datepicker"
               >
+                <template #day-overlay="{ day }">
+                  <div v-if="isWeekend(day.date)" class="weekend-indicator"></div>
+                </template>
+              </VueDatePicker>
             </div>
             <div>
-              <label for="message" class="block text-sm font-medium text-gray-900 mb-1">Message (optionnel)</label>
-              <textarea 
-                id="message" 
-                v-model="reservationForm.message" 
-                rows="3" 
-                class="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200 text-gray-900"
-              ></textarea>
+              <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Votre email</label>
+              <input type="email" id="email" v-model="reservationForm.email" required class="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200 text-black">
+            </div>
+            <div>
+              <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Votre numéro de téléphone</label>
+              <input type="tel" id="phone" v-model="reservationForm.phone" required class="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200 text-black">
+            </div>
+            <div>
+              <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message (optionnel)</label>
+              <textarea id="message" v-model="reservationForm.message" rows="3" class="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200 text-black"></textarea>
             </div>
             <div class="flex justify-end space-x-4">
               <button 
                 type="button" 
                 @click="showReservationForm = false" 
-                class="px-6 py-2 rounded-lg text-purple-700 bg-purple-100 hover:bg-purple-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200"
+                class="px-6 py-2 rounded-lg text-purple-700 bg-purple-100 hover:bg-purple-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200 w-28"
+                :disabled="isSubmitting"
               >
                 Annuler
               </button>
               <button 
                 type="submit" 
-                :disabled="isSubmitting" 
-                class="px-6 py-2 rounded-lg text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200"
+                class="px-6 py-2 rounded-lg text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed w-28"
+                :disabled="isSubmitting"
               >
-                <span v-if="isSubmitting">Envoi...</span>
+                <span v-if="isSubmitting">{{ sendingText }}</span>
                 <span v-else>Réserver</span>
               </button>
             </div>
           </form>
-          <div 
-            v-if="submitStatus" 
-            :class="['text-center p-4 rounded-md mt-4', submitStatus.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800']"
+
+          <!-- Message de statut -->
+          <div v-if="submitStatus" 
+               :class="`mt-4 p-4 rounded-lg text-center ${
+                 submitStatus.type === 'success' 
+                   ? 'bg-green-100 text-green-700 border border-green-400' 
+                   : 'bg-red-100 text-red-700 border border-red-400'
+               }`"
           >
             {{ submitStatus.message }}
           </div>
@@ -184,113 +242,87 @@
 </template>
 
 <script setup>
-import { ref, computed, reactive } from 'vue';
-import VueDatePicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css';
-import Header from '@/components/Header.vue';
-import Footer from '@/components/Footer.vue';
+import { ref, computed } from 'vue';
+import VueDatePicker from '@vuepic/vue-datepicker'
+import '@vuepic/vue-datepicker/dist/main.css'
+import { useServicesReservation } from '@/composables/useServicesReservation'
 
-const phases = [
-  {
-    title: "Accueil VIP des Invités",
-    services: [
-      "Tapis rouge et photographe professionnel",
-      "Photobooth interactif avec accessoires fun",
-    ],
-    ambiance: "Musique d'ambiance lounge avec un DJ d'accueil et éclairage tamisé",
-    price: 600
-  },
-  {
-    title: "Apéritif & Cocktails",
-    services: [
-      "Bar à Cocktails créatifs servis par des barmans talentueux",
-      "Buffet d'Apéritifs avec show culinaire en direct",
-    ],
-    ambiance: "Musique house légère avec des performances de danseurs",
-    price: 1000
-  },
-  {
-    title: "DJ Renommé",
-    services: [
-      "DJ renommé pour un set exclusif",
-      "Show laser et jeux de lumières synchronisés avec la musique",
-    ],
-    ambiance: "Ambiance club avec un mix de house, EDM et hits du moment",
-    price: 1000
-  },
-  {
-    title: "Gâteau d'Anniversaire Spectaculaire",
-    services: [
-      "Gâteau personnalisé",
-      "Vidéaste pour filmer l'événement",
-    ],
-    ambiance: "Moment festif pour célébrer l'anniversaire",
-    price: 500
-  },
-  {
-    title: "After Party",
-    services: [
-      "Distribution de packs VIP 'souvenirs' pour continuer la fête",
-      "Navettes possibles pour ramener les invités chez eux",
-    ],
-    ambiance: "La fête continue avec une playlist personnalisée pour l'after",
-    price: 300
-  },
-];
-
-const selectedPhases = ref(new Array(phases.length).fill(false));
-const selectedSecurity = ref(false);
-const securityPrice = 300;
-const totalEstimate = ref(0);
-const showReservationForm = ref(false);
-const isSubmitting = ref(false);
-const submitStatus = ref(null);
-
-// Computed property pour vérifier si des services sont sélectionnés
-const hasSelectedServices = computed(() => {
-  const selectedValues = [...selectedPhases.value];
-  return selectedValues.some(value => value) || selectedSecurity.value;
+const selectedServices = ref({
+  accueil: false,
+  aperitif: false,
+  animation: false,
+  securite: false
 });
 
-// Fonction pour mettre à jour la sélection d'une phase
-const updatePhaseSelection = (index) => {
-  const newSelectedPhases = [...selectedPhases.value];
-  newSelectedPhases[index] = !newSelectedPhases[index];
-  selectedPhases.value = newSelectedPhases;
-  updateTotalEstimate();
-};
+const prices = ref({
+  accueil: 600,
+  aperitif: 1000,
+  animation: 1000,
+  securite: 300
+});
 
-// Fonction pour mettre à jour le total estimé
-const updateTotalEstimate = () => {
+const showReservationForm = ref(false);
+
+const reservationForm = ref({
+  guests: null,
+  date: null,
+  email: '',
+  phone: '',
+  message: '',
+  eventType: 'Soirée 18+'
+});
+
+const hasSelectedServices = computed(() => {
+  return Object.values(selectedServices.value).some(value => value);
+});
+
+const totalEstimate = computed(() => {
   let total = 0;
-  selectedPhases.value.forEach((isSelected, index) => {
-    if (isSelected) {
-      total += phases[index].price;
+  if (selectedServices.value.accueil) total += prices.value.accueil;
+  if (selectedServices.value.aperitif) total += prices.value.aperitif;
+  if (selectedServices.value.animation) total += prices.value.animation;
+  if (selectedServices.value.securite) total += prices.value.securite;
+  return total;
+});
+
+const { isSubmitting, submitStatus, submitForm } = useServicesReservation(
+  reservationForm,
+  selectedServices,
+  totalEstimate
+);
+
+const sendingText = ref('Envoi');
+let dotCount = 0;
+
+const updateSendingText = () => {
+  dotCount = (dotCount + 1) % 4;
+  sendingText.value = 'Envoi' + '.'.repeat(dotCount);
+};
+
+const handleSubmit = async () => {
+  try {
+    reservationForm.value = {
+      ...reservationForm.value,
+      services: JSON.parse(JSON.stringify(selectedServices.value)),
+      totalEstimate: totalEstimate.value
+    };
+
+    const intervalId = setInterval(updateSendingText, 500);
+
+    await submitForm();
+    
+    clearInterval(intervalId);
+
+    if (submitStatus.value?.type === 'success') {
+      setTimeout(() => {
+        showReservationForm.value = false;
+      }, 2000);
     }
-  });
-  if (selectedSecurity.value) {
-    total += securityPrice;
+  } catch (error) {
+    console.error('Erreur lors de la soumission:', error);
   }
-  totalEstimate.value = total;
 };
 
-// Fonction pour obtenir l'emoji correspondant au service
-const getEmoji = (service) => {
-  if (service.includes('Accueil')) return '🎉';
-  if (service.includes('Photobooth')) return '📸';
-  if (service.includes('Bar')) return '🍹';
-  if (service.includes('Buffet')) return '🍽️';
-  if (service.includes('DJ')) return '🎧';
-  if (service.includes('laser')) return '💡';
-  if (service.includes('Gâteau')) return '🎂';
-  if (service.includes('Vidéaste')) return '🎥';
-  if (service.includes('packs VIP')) return '🎁';
-  if (service.includes('Navettes')) return '🚗';
-  if (service.includes('sécurité')) return '💪';
-  return '🥳';
-};
-
-// Configuration du datepicker
 const locale = {
   locale: 'fr',
   format: 'dd/MM/yyyy',
@@ -314,36 +346,57 @@ const dateFormat = (date) => {
   });
 };
 
-// Formulaire de réservation
-const reservationForm = reactive({
-  guests: '',
-  date: null,
-  email: '',
-  message: ''
-});
-
-// Fonction de soumission du formulaire
-const submitReservation = () => {
-  isSubmitting.value = true;
-  // Simulation d'un appel API
-  setTimeout(() => {
-    isSubmitting.value = false;
-    submitStatus.value = { 
-      type: 'success', 
-      message: 'Réservation de votre Soirée 18+ envoyée avec succès!' 
-    };
-    
-    // Réinitialisation du formulaire après soumission réussie
-    reservationForm.guests = '';
-    reservationForm.date = null;
-    reservationForm.email = '';
-    reservationForm.message = '';
-    
-    // Fermeture du formulaire après un délai
-    setTimeout(() => {
-      showReservationForm.value = false;
-      submitStatus.value = null;
-    }, 3000);
-  }, 2000);
+const isWeekend = (date) => {
+  const day = date.getDay();
+  return day === 0 || day === 6;
 };
 </script>
+
+<style>
+.custom-datepicker .dp__theme_light {
+  --dp-background-color: #ffffff;
+  --dp-text-color: #6b21a8;
+  --dp-hover-color: #d8b4fe;
+  --dp-hover-text-color: #4c1d95;
+  --dp-hover-icon-color: #4c1d95;
+  --dp-primary-color: #8b5cf6;
+  --dp-primary-text-color: #ffffff;
+  --dp-secondary-color: #e9d5ff;
+  --dp-border-color: #d8b4fe;
+  --dp-menu-border-color: #d8b4fe;
+  --dp-border-color-hover: #a855f7;
+  --dp-disabled-color: #f3f4f6;
+  --dp-scroll-bar-background: #f3f4f6;
+  --dp-scroll-bar-color: #d1d5db;
+  --dp-success-color: #10b981;
+  --dp-success-color-disabled: #88e2c7;
+  --dp-icon-color: #6b21a8;
+  --dp-danger-color: #ef4444;
+  --dp-highlight-color: #8b5cf6;
+}
+
+.custom-datepicker .dp__theme_light .dp__calendar_header {
+  font-weight: bold;
+  color: #4c1d95;
+}
+
+.custom-datepicker .dp__theme_light .dp__today {
+  border: 2px solid #8b5cf6;
+}
+
+.custom-datepicker .dp__theme_light .dp__active_date {
+  background-color: #8b5cf6;
+  color: #ffffff;
+}
+
+.custom-datepicker .weekend-indicator {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 8px 8px 0;
+  border-color: transparent #f59e0b transparent transparent;
+}
+</style>
