@@ -31,10 +31,15 @@
                 v-model="form.date"
                 :enable-time-picker="false"
                 :format="dateFormat"
+                :locale="locale"
                 placeholder="Sélectionnez une date"
                 :min-date="new Date()"
-                class="w-full"
-              />
+                class="custom-datepicker"
+              >
+                <template #day-overlay="{ day }">
+                  <div v-if="isWeekend(day.date)" class="weekend-indicator"></div>
+                </template>
+              </VueDatePicker>
             </div>
             <div class="mb-6">
               <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Message</label>
@@ -86,10 +91,101 @@ const form = reactive({
 
 const { isSubmitting, submitStatus, submitForm } = useContactForm(form)
 
+const locale = {
+  locale: 'fr',
+  format: 'dd/MM/yyyy',
+  firstDay: 1,
+  yearSuffix: '',
+  weekdays: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+  weekdaysShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+  months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+  monthsShort: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'],
+  today: "Aujourd'hui",
+  clear: 'Effacer',
+  close: 'Fermer'
+};
+
 const dateFormat = (date) => {
-  const day = date.getDate().toString().padStart(2, '0')
-  const month = (date.getMonth() + 1).toString().padStart(2, '0')
-  const year = date.getFullYear()
-  return `${day}/${month}/${year}`
-}
+  if (!date) return '';
+  return new Date(date).toLocaleDateString('fr-FR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  });
+};
+
+const isWeekend = (date) => {
+  const day = date.getDay();
+  return day === 0 || day === 6;
+};
 </script>
+
+<style>
+.custom-datepicker .dp__theme_light {
+    --dp-background-color: #fff;
+    --dp-text-color: #212121;
+    --dp-hover-color: #f3f3f3;
+    --dp-hover-text-color: #212121;
+    --dp-hover-icon-color: #959595;
+    --dp-primary-color: #041322;
+    --dp-primary-disabled-color: #000000;
+    --dp-primary-text-color: #f8f5f5;
+    --dp-secondary-color: #c0c4cc;
+    --dp-border-color: #ddd;
+    --dp-menu-border-color: #ddd;
+    --dp-border-color-hover: #aaaeb7;
+    --dp-border-color-focus: #aaaeb7;
+    --dp-disabled-color: #f6f6f6;
+    --dp-scroll-bar-background: #f3f3f3;
+    --dp-scroll-bar-color: #959595;
+    --dp-success-color: #76d275;
+    --dp-success-color-disabled: #a3d9b1;
+    --dp-icon-color: #959595;
+    --dp-danger-color: #ff6f60;
+    --dp-marker-color: #ff6f60;
+    --dp-tooltip-color: #fafafa;
+    --dp-disabled-color-text: #8e8e8e;
+    --dp-highlight-color: rgb(25 118 210 / 10%);
+    --dp-range-between-dates-background-color: var(--dp-hover-color, #f3f3f3);
+    --dp-range-between-dates-text-color: var(--dp-hover-text-color, #212121);
+    --dp-range-between-border-color: var(--dp-hover-color, #f3f3f3);
+}
+
+.custom-datepicker .dp__theme_light .dp__calendar_header {
+  font-weight: bold;
+  color: #333333;
+}
+
+.custom-datepicker .dp__theme_light .dp__today {
+  border: 2px solid #333333;
+}
+
+.custom-datepicker .dp__theme_light .dp__active_date {
+  background-color: #333333;
+  color: #ffffff;
+}
+
+.custom-datepicker .weekend-indicator {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 8px 8px 0;
+  border-color: transparent #f59e0b transparent transparent;
+}
+
+/* Style pour les checkboxes */
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #041322;
+  cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #af297e;
+  border-color: #041322;
+}
+</style>
