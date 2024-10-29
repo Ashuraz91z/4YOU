@@ -2,8 +2,8 @@
 import nodemailer from 'nodemailer'
 import { join } from 'path'
 
-console.log(process.env.EMAIL_USER)
-console.log(process.env.EMAIL_PASS)
+const config = useRuntimeConfig()
+
 
 // Configuration du transporteur email
 const transporter = nodemailer.createTransport({
@@ -11,8 +11,8 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
+    user: config.emailUser,
+    pass: config.emailPass
   }
 })
 
