@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer'
 
 const config = useRuntimeConfig()
 
-// Configuration du transporteur email
+
 const transporter = nodemailer.createTransport({
   host: 'smtp.hostinger.com',
   port: 465,
