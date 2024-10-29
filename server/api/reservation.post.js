@@ -19,10 +19,9 @@ const isValidEmail = (email) => {
   return emailRegex.test(email)
 }
 
-// Validation du format téléphone
 const isValidPhone = (phone) => {
-  const phoneRegex = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/
-  return phoneRegex.test(phone)
+  const cleanPhone = phone.replace(/\D/g, '')
+  return cleanPhone.length >= 10 && cleanPhone.length <= 15
 }
 
 // Validation de la date

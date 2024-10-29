@@ -42,10 +42,9 @@ const formatDate = (dateString) => {
 
 // Validation du phone
 const isValidPhone = (phone) => {
-  const phoneRegex = /^\d{10}$/
-  return phoneRegex.test(phone)
+  const cleanPhone = phone.replace(/\D/g, '')
+  return cleanPhone.length >= 10 && cleanPhone.length <= 15
 }
-
 // Formatage du prix
 const formatPrice = (price) => {
   return new Intl.NumberFormat('fr-FR', {
