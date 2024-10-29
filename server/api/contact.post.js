@@ -19,8 +19,8 @@ export default defineEventHandler(async (event) => {
 
   try {
     await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: "contact@danyferreira.tech",
+      from: config.emailUser,
+      to: config.emailUser,
       subject: `Nouveau message de ${name}`,
       text: `Nom: ${name}\nEmail: ${email}\nMessage: ${message}`,
       html: `<p><strong>Nom:</strong> ${name}</p>
