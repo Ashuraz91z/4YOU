@@ -4,6 +4,8 @@ import { join } from 'path'
 
 const config = useRuntimeConfig()
 
+console.log(config.emailUser)
+console.log(config.emailPass)
 
 // Configuration du transporteur email
 const transporter = nodemailer.createTransport({
