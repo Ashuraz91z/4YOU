@@ -1,13 +1,15 @@
 // Dans server/api/contact.post.js
 import nodemailer from 'nodemailer'
 
+const config = useRuntimeConfig()
+
 const transporter = nodemailer.createTransport({
   host: 'smtp.hostinger.com',
   port: 465,
   secure: true,
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
+    user: config.emailUser,
+    pass: config.emailPass
   }
 })
 
