@@ -147,40 +147,41 @@ export default defineEventHandler(async (event) => {
     const { guests, date, email, phone, message, services, totalEstimate, eventType } = body
 
     // Validations
-    if (!email || !guests || !date || !services || !phone || !eventType) {
-      throw createError({
-        statusCode: 400,
-        statusMessage: 'Données de réservation incomplètes'
-      })
-    }
+   // Modification des validations
+if (!email || !guests || !date || !services || !phone || !eventType) {
+  throw createError({
+    statusCode: 400,
+    message: 'Données de réservation incomplètes'
+  })
+}
 
-    if (!isValidEmail(email)) {
-      throw createError({
-        statusCode: 400,
-        statusMessage: 'Format d\'email invalide'
-      })
-    }
+if (!isValidEmail(email)) {
+  throw createError({
+    statusCode: 400,
+    message: 'Format d\'email invalide'
+  })
+}
 
-    if (!isValidPhone(phone)) {
-      throw createError({
-        statusCode: 400,
-        statusMessage: 'Format de téléphone invalide'
-      })
-    }
+if (!isValidPhone(phone)) {
+  throw createError({
+    statusCode: 400,
+    message: 'Format de téléphone invalide'
+  })
+}
 
-    if (!isValidDate(date)) {
-      throw createError({
-        statusCode: 400,
-        statusMessage: 'La date sélectionnée doit être ultérieure à aujourd\'hui'
-      })
-    }
+if (!isValidDate(date)) {
+  throw createError({
+    statusCode: 400,
+    message: 'La date sélectionnée doit être ultérieure à aujourd\'hui'
+  })
+}
 
-    if (guests < 1) {
-      throw createError({
-        statusCode: 400,
-        statusMessage: 'Le nombre d\'invités doit être supérieur à 0'
-      })
-    }
+if (guests < 1) {
+  throw createError({
+    statusCode: 400,
+    message: 'Le nombre d\'invités doit être supérieur à 0'
+  })
+}
 
     const htmlContent = createHtmlContent(body)
     const textContent = `
@@ -240,7 +241,7 @@ export default defineEventHandler(async (event) => {
     
     throw createError({
       statusCode: 500,
-      statusMessage: 'Une erreur est survenue lors de l\'envoi de votre réservation. Veuillez réessayer.'
+      message: 'Une erreur est survenue lors de l\'envoi de votre réservation. Veuillez réessayer.'
     })
   }
 })

@@ -110,35 +110,35 @@ export default defineEventHandler(async (event) => {
     if (!email || !guests || !date || !selectedFormula || !phone) {
       throw createError({
         statusCode: 400,
-        statusMessage: 'Données de réservation incomplètes'
+        message: 'Données de réservation incomplètes'
       })
     }
 
     if (!isValidEmail(email)) {
       throw createError({
         statusCode: 400,
-        statusMessage: 'Format d\'email invalide'
+        message: 'Format d\'email invalide'
       })
     }
 
     if (!isValidPhone(phone)) {
       throw createError({
         statusCode: 400,
-        statusMessage: 'Format de téléphone invalide'
+        message: 'Format de téléphone invalide'
       })
     }
 
     if (!isValidDate(date)) {
       throw createError({
         statusCode: 400,
-        statusMessage: 'La date sélectionnée doit être ultérieure à aujourd\'hui'
+        message: 'La date sélectionnée doit être ultérieure à aujourd\'hui'
       })
     }
 
     if (guests < 1) {
       throw createError({
         statusCode: 400,
-        statusMessage: 'Le nombre d\'invités doit être supérieur à 0'
+        message: 'Le nombre d\'invités doit être supérieur à 0'
       })
     }
 
@@ -207,14 +207,13 @@ export default defineEventHandler(async (event) => {
   } catch (error) {
     console.error('Erreur lors de l\'envoi de la réservation:', error)
     
-    // Gestion des différents types d'erreurs
     if (error.statusCode === 400) {
       throw error
     }
     
     throw createError({
       statusCode: 500,
-      statusMessage: 'Une erreur est survenue lors de l\'envoi de votre réservation. Veuillez réessayer.'
+      message: 'Une erreur est survenue lors de l\'envoi de votre réservation. Veuillez réessayer.'
     })
   }
 })
