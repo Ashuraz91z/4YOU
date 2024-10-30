@@ -15,17 +15,21 @@ export default defineNuxtConfig({
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { hid: 'description', name: 'description', content: '4YOU - Votre agence événementielle de confiance à Paris. Nous créons des événements sur mesure : mariages, anniversaires, événements d\'entreprise. Une équipe expérimentée pour des moments inoubliables.' },
-        { name: 'keywords', content: 'agence événementielle, organisation événements, mariage, anniversaire, événement entreprise, Paris, événementiel, réception, fête, célébration' },
-        { property: 'og:title', content: '4YOU - Agence Événementielle à Paris' },
-        { property: 'og:description', content: 'Créez des moments inoubliables avec 4YOU. Experts en organisation d\'événements personnalisés à Paris.' },
+        { hid: 'description', name: 'description', content: '4YOU - Votre agence événementielle à Paris. Organisation professionnelle de mariages, séminaires, conférences et événements d\'entreprise. Des moments inoubliables sur mesure.' },
+        { name: 'keywords', content: 'agence événementielle, organisation événements, mariage, séminaire, conférence, événement entreprise, Paris, 4YOU' },
+        { property: 'og:title', content: '4YOU - Agence Événementielle Paris' },
+        { property: 'og:description', content: 'Créez des moments inoubliables avec 4YOU. Organisation professionnelle d\'événements sur mesure à Paris.' },
         { property: 'og:type', content: 'website' },
+        { property: 'og:locale', content: 'fr_FR' },
         { name: 'robots', content: 'index, follow' },
-        { name: 'author', content: '4YOU Events' },
       ],
       link: [
         { rel: 'icon', type: 'image/png', href: '/img/logo.png' },
-        // Autres liens
+        {
+          rel: 'stylesheet',
+          href: 'https://use.typekit.net/jix1lxs.css'
+        }
+
       ],
     }
   },

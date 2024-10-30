@@ -159,8 +159,12 @@
             <button type="button" @click="showReservationForm = false" class="px-6 py-2 rounded-lg text-purple-700 bg-purple-100 hover:bg-purple-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200">
               Annuler
             </button>
-            <button type="submit" :disabled="isSubmitting" class="px-6 py-2 rounded-lg text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200">
-              <span v-if="isSubmitting">Envoi...</span>
+            <button 
+                type="submit" 
+                class="px-6 py-2 rounded-lg text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed w-28"
+                :disabled="isSubmitting"
+              >
+                <span v-if="isSubmitting">{{ sendingText }}</span>
               <span v-else>Réserver</span>
             </button>
           </div>
@@ -179,6 +183,15 @@ import { useRoute, useRouter } from 'vue-router'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import { useReservationForm } from '../composables/useReservationForm'
+
+const sendingText = ref('Envoi');
+let dotCount = 0;
+let dotInterval;
+
+const updateSendingText = () => {
+  dotCount = (dotCount + 1) % 4;
+  sendingText.value = 'Envoi' + '.'.repeat(dotCount);
+};
 
 export default {
   name: 'Estimate',
@@ -263,6 +276,24 @@ export default {
     })
 
     const { isSubmitting, submitStatus, submitForm } = useReservationForm(reservationForm)
+
+    watch(isSubmitting, (newValue) => {
+      if (newValue) {
+        dotInterval = setInterval(updateSendingText, 500);
+      } else {
+        clearInterval(dotInterval);
+        sendingText.value = 'Envoi';
+        dotCount = 0;
+      }
+    });
+
+    watch(submitStatus, (newStatus) => {
+      if (newStatus && newStatus.type === 'success') {
+        setTimeout(() => {
+          showReservationForm.value = false;
+        }, 2000);
+      }
+    });
 
     const selectedOptions = computed(() => {
       return themeOptions.value.filter(option => option.selected)
@@ -425,7 +456,8 @@ export default {
       dateFormat,
       isSubmitting,
       submitStatus,
-      submitForm
+      submitForm,
+      sendingText
     }
   }
 }
@@ -517,5 +549,44 @@ export default {
 
 .dp__month_year_select {
   color: rgb(147 51 234) !important;
+}
+
+.dp__action_button {
+  background-color: rgb(147 51 234) !important;
+  color: white !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 0.5rem !important;
+  font-weight: 600 !important;
+  transition: all 0.2s !important;
+}
+
+.dp__action_button:hover {
+  background-color: rgb(126 34 206) !important;
+}
+
+.dp__action_select {
+  background-color: rgb(147 51 234) !important;
+  color: white !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 0.5rem !important;
+  font-weight: 600 !important;
+  transition: all 0.2s !important;
+}
+
+.dp__action_select:hover {
+  background-color: rgb(126 34 206) !important;
+}
+
+.dp__overlay_action {
+  background-color: rgb(147 51 234) !important;
+  color: white !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 0.5rem !important;
+  font-weight: 600 !important;
+  transition: all 0.2s !important;
+}
+
+.dp__overlay_action:hover {
+  background-color: rgb(126 34 206) !important;
 }
 </style>

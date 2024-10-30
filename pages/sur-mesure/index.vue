@@ -175,17 +175,4 @@ const isWeekend = (date) => {
   border-width: 0 8px 8px 0;
   border-color: transparent #f59e0b transparent transparent;
 }
-
-/* Style pour les checkboxes */
-input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  accent-color: #041322;
-  cursor: pointer;
-}
-
-input[type="checkbox"]:checked {
-  background-color: #af297e;
-  border-color: #041322;
-}
 </style>

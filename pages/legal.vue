@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div class="bg-[#ffefef]">
         <Header textColor="text-black" />
-        <div class="container mx-auto px-4 py-8">
+        <div class="container mx-auto px-4 py-8 text-center pt-24">
             <h1 class="text-3xl font-bold text-purple-800 mb-8">Mentions Légales</h1>
 
             <div class="space-y-6">
