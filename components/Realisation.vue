@@ -24,7 +24,7 @@
                     </div>
                 </div>
                 <div class="md:w-1/2">
-                    <img src="~/assets/img/sport.jpeg" alt="Fête de fin d'année" class="w-full h-full object-cover">
+                    <img src="~/assets/img/kermesse.jpeg" alt="Fête de fin d'année" class="w-full h-full object-cover">
                 </div>
             </div>
             <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row">
@@ -46,7 +46,7 @@
                     </div>
                 </div>
                 <div class="md:w-1/2">
-                    <img src="~/assets/img/sport.jpeg" alt="Anniversaire avec animation" class="w-full h-full object-cover">
+                    <img src="~/assets/img/licorne.jpeg" alt="Anniversaire avec animation" class="w-full h-full object-cover">
                 </div>
             </div>
             <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row-reverse">
@@ -68,7 +68,7 @@
                     </div>
                 </div>
                 <div class="md:w-1/2">
-                    <img src="~/assets/img/sport.jpeg" alt="Anniversaire thème licorne" class="w-full h-full object-cover">
+                    <img src="~/assets/img/anniversaire.jpeg" alt="Anniversaire thème licorne" class="w-full h-full object-cover">
                 </div>
             </div>
             <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row">
@@ -90,7 +90,7 @@
                     </div>
                 </div>
                 <div class="md:w-1/2">
-                    <img src="~/assets/img/sport.jpeg" alt="Organisation complète d'anniversaire" class="w-full h-full object-cover">
+                    <img src="~/assets/img/animatrice.jpeg" alt="Organisation complète d'anniversaire" class="w-full h-full object-cover">
                 </div>
             </div>
         </div>
