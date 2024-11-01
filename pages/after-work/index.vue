@@ -3,7 +3,7 @@
     <Header textColor="text-white" />
     <div class="container mx-auto py-24 px-4">
       <h1 class="text-5xl font-bold mb-12 text-center font-lust-didone text-amber-400">Afterwork Festif</h1>
-      
+
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <section class="bg-white/10 p-8 rounded-lg backdrop-blur-sm">
           <h2 class="text-2xl font-bold mb-6 font-caprasimo text-amber-300">Accueil et Installation</h2>
@@ -103,39 +103,7 @@
         </section>
       </div>
 
-      <section class="bg-white/10 p-8 rounded-lg backdrop-blur-sm mt-8">
-        <h2 class="text-2xl font-bold mb-6 font-caprasimo text-amber-300">Distribution de Cadeaux Souvenirs</h2>
-        <p class="text-sm italic mb-4">Le prix varie en fonction du nombre d'invités</p>
-        <div class="mt-4 flex items-center justify-between">
-          <span class="text-amber-300 h-10 flex items-center">{{ prices.cadeaux.min }} - {{ prices.cadeaux.max }} €</span>
-          <label for="cadeaux" class="flex items-center cursor-pointer">
-            <input type="checkbox" id="cadeaux" v-model="selectedServices.cadeaux" class="mr-2 hidden">
-            <span 
-              class="px-4 py-2 rounded-full transition-colors duration-200 ease-in-out inline-block w-40 text-center"
-              :class="selectedServices.cadeaux ? 'bg-amber-400 text-indigo-900 font-bold' : 'bg-transparent border-2 border-amber-300 text-amber-300'"
-            >
-              {{ selectedServices.cadeaux ? 'Sélectionné ✓' : 'Sélectionner' }}
-            </span>
-          </label>
-        </div>
-      </section>
-
-      <section class="bg-white/10 p-8 rounded-lg backdrop-blur-sm mt-8">
-        <h2 class="text-2xl font-bold mb-6 font-caprasimo text-amber-300">Services Supplémentaires</h2>
-        <ul class="space-y-3">
-          <li class="flex items-center">
-            <span class="mr-2">🌿</span> Décoration légère et tendance
-          </li>
-          <li class="flex items-center">
-            <span class="mr-2">👮</span> Service de sécurité
-          </li>
-          <li class="flex items-center">
-            <span class="mr-2">🎩</span> Animations optionnelles (magicien, ateliers cocktails)
-          </li>
-        </ul>
-        <p class="mt-4 font-bold">Prix sur demande</p>
-      </section>
-
+      <!-- Formulaire de réservation -->
       <section class="bg-white/10 p-8 rounded-lg backdrop-blur-sm mt-8">
         <h2 class="text-2xl font-bold mb-6 font-caprasimo text-amber-300">Devis Estimatif</h2>
         <ul class="space-y-4">
@@ -176,84 +144,80 @@
           Demander un devis
         </button>
       </section>
-    </div>
-    <Footer />
 
-    <!-- Formulaire de réservation -->
-    <div v-if="showReservationForm" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
-      <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4">
-        <h3 class="text-3xl font-bold mb-6 text-center text-purple-700">Réservation</h3>
-
-        <form @submit.prevent="handleSubmit" class="space-y-6">
-          <div>
-            <label for="guests" class="block text-sm font-medium text-gray-700 mb-1">Nombre d'invités</label>
-            <input type="number" id="guests" v-model="reservationForm.guests" required class="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200 text-black">
+      <div v-if="showReservationForm" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4">
+          <h3 class="text-3xl font-bold mb-6 text-center text-purple-700">Réservation</h3>
+          <form @submit.prevent="handleSubmit" class="space-y-6">
+            <div>
+              <label for="guests" class="block text-sm font-medium text-gray-700 mb-1">Nombre d'invités</label>
+              <input type="number" id="guests" v-model="reservationForm.guests" required class="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200 text-black">
+            </div>
+            <div>
+              <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Date de l'événement</label>
+              <VueDatePicker
+                v-model="reservationForm.date"
+                :locale="locale"
+                :format="dateFormat"
+                :enable-time-picker="false"
+                :min-date="new Date()"
+                placeholder="Sélectionnez une date"
+                input-class-name="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200 text-black"
+                :hide-input-icon="true"
+                required
+                class="custom-datepicker"
+              >
+                <template #day-overlay="{ day }">
+                  <div v-if="isWeekend(day.date)" class="weekend-indicator"></div>
+                </template>
+              </VueDatePicker>
+            </div>
+            <div>
+              <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Votre email</label>
+              <input type="email" id="email" v-model="reservationForm.email" required class="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200 text-black">
+            </div>
+            <div>
+              <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Votre numéro de téléphone</label>
+              <input type="tel" id="phone" v-model="reservationForm.phone" required class="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200 text-black">
+            </div>
+            <div>
+              <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message (optionnel)</label>
+              <textarea id="message" v-model="reservationForm.message" rows="3" class="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200 text-black"></textarea>
+            </div>
+            <div class="flex justify-end space-x-4">
+              <button 
+                type="button" 
+                @click="showReservationForm = false" 
+                class="px-6 py-2 rounded-lg text-purple-700 bg-purple-100 hover:bg-purple-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200 w-28"
+                :disabled="isSubmitting"
+              >
+                Annuler
+              </button>
+              <button 
+                type="submit" 
+                class="px-6 py-2 rounded-lg text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed w-28"
+                :disabled="isSubmitting"
+              >
+                <span v-if="isSubmitting">{{ sendingText }}</span>
+                <span v-else>Réserver</span>
+              </button>
+            </div>
+          </form>
+          <div v-if="submitStatus" 
+               :class="`mt-4 p-4 rounded-lg text-center ${
+                 submitStatus.type === 'success' 
+                   ? 'bg-green-100 text-green-700 border border-green-400 ' 
+                   : 'bg-red-100 text-red-700 border border-red-400'
+               }`"
+          >
+            {{ submitStatus.message }}
           </div>
-          <div>
-            <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Date de l'événement</label>
-            <VueDatePicker
-              v-model="reservationForm.date"
-              :locale="locale"
-              :format="dateFormat"
-              :enable-time-picker="false"
-              :min-date="new Date()"
-              placeholder="Sélectionnez une date"
-              input-class-name="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200 text-black"
-              :hide-input-icon="true"
-              required
-              class="custom-datepicker"
-            >
-              <template #day-overlay="{ day }">
-                <div v-if="isWeekend(day.date)" class="weekend-indicator"></div>
-              </template>
-            </VueDatePicker>
-          </div>
-          <div>
-            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Votre email</label>
-            <input type="email" id="email" v-model="reservationForm.email" required class="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200 text-black">
-          </div>
-          <div>
-            <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Votre numéro de téléphone</label>
-            <input type="tel" id="phone" v-model="reservationForm.phone" required class="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200 text-black">
-          </div>
-          <div>
-            <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message (optionnel)</label>
-            <textarea id="message" v-model="reservationForm.message" rows="3" class="w-full px-4 py-2 rounded-lg border-2 border-purple-300 focus:border-purple-500 focus:ring focus:ring-purple-200 transition duration-200 text-black"></textarea>
-          </div>
-          <div class="flex justify-end space-x-4">
-            <button 
-              type="button" 
-              @click="showReservationForm = false" 
-              class="px-6 py-2 rounded-lg text-purple-700 bg-purple-100 hover:bg-purple-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200 w-28"
-              :disabled="isSubmitting"
-            >
-              Annuler
-            </button>
-            <button 
-              type="submit" 
-              class="px-6 py-2 rounded-lg text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed w-28"
-              :disabled="isSubmitting"
-            >
-              <span v-if="isSubmitting">{{ sendingText }}</span>
-              <span v-else>Réserver</span>
-            </button>
-          </div>
-        </form>
-
-        <!-- Message de statut -->
-        <div v-if="submitStatus" 
-             :class="`mt-4 p-4 rounded-lg text-center ${
-               submitStatus.type === 'success' 
-                 ? 'bg-green-100 text-green-700 border border-green-400 ' 
-                 : 'bg-red-100 text-red-700 border border-red-400'
-             }`"
-        >
-          {{ submitStatus.message }}
         </div>
       </div>
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref, computed } from 'vue';
@@ -287,8 +251,7 @@ const reservationForm = ref({
   date: null,
   email: '',
   phone: '',
-  message: '',
-  eventType: 'Afterwork'
+  message: ''
 });
 
 const hasSelectedServices = computed(() => {
@@ -305,11 +268,11 @@ const totalEstimate = computed(() => {
   return total;
 });
 
-// Configuration du composable de réservation
 const { isSubmitting, submitStatus, submitForm } = useServicesReservation(
   reservationForm,
   selectedServices,
-  totalEstimate
+  totalEstimate,
+  'Afterwork'
 );
 
 const sendingText = ref('Envoi');
@@ -322,16 +285,17 @@ const updateSendingText = () => {
 
 const handleSubmit = async () => {
   try {
-    // On fait une copie profonde des données avant de les envoyer
-    reservationForm.value = {
+    // Ajout de l'eventType directement ici lors de l'envoi
+    const formData = {
       ...reservationForm.value,
       services: JSON.parse(JSON.stringify(selectedServices.value)),
-      totalEstimate: totalEstimate.value
+      totalEstimate: totalEstimate.value,
+      eventType: 'Afterwork'
     };
 
     const intervalId = setInterval(updateSendingText, 500);
 
-    await submitForm();
+    await submitForm(formData);
     
     clearInterval(intervalId);
 
@@ -341,7 +305,12 @@ const handleSubmit = async () => {
       }, 2000);
     }
   } catch (error) {
-    console.error('Erreur lors de la soumission:', error);
+  console.error('Erreur lors de l\'envoi de la réservation:', error);
+
+  submitStatus.value = {
+    type: 'error',
+    message: error.data?.message || error.message || 'Une erreur est survenue lors de l\'envoi de votre réservation. Veuillez réessayer.',
+    };
   }
 };
 
@@ -375,8 +344,9 @@ const isWeekend = (date) => {
 
 </script>
 
+
 <style>
-.custom-datepicker .dp__theme_light {
+.custom-datepicker .dp__theme_light  {
   --dp-background-color: #ffffff;
   --dp-text-color: #6b21a8;
   --dp-hover-color: #d8b4fe;

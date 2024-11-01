@@ -288,7 +288,8 @@ const totalEstimate = computed(() => {
 const { isSubmitting, submitStatus, submitForm } = useServicesReservation(
   reservationForm,
   selectedServices,
-  totalEstimate
+  totalEstimate,
+  'Soirée 18+'
 );
 
 const sendingText = ref('Envoi');
@@ -301,22 +302,29 @@ const updateSendingText = () => {
 
 const handleSubmit = async () => {
   try {
+    // Prépare les données pour la soumission
     reservationForm.value = {
       ...reservationForm.value,
       services: JSON.parse(JSON.stringify(selectedServices.value)),
       totalEstimate: totalEstimate.value
     };
 
+    // Affiche l'animation de "Chargement"
     const intervalId = setInterval(updateSendingText, 500);
 
+    // Soumission du formulaire via le composable
     await submitForm();
     
     clearInterval(intervalId);
 
+    // Vérifie si la soumission est un succès
     if (submitStatus.value?.type === 'success') {
       setTimeout(() => {
-        showReservationForm.value = false;
+        showReservationForm.value = false; // Ferme la popup en cas de succès
       }, 2000);
+    } else if (submitStatus.value?.type === 'error') {
+      console.log("Erreur lors de la soumission :", submitStatus.value.message);
+      // La popup reste ouverte et le message d'erreur est affiché via submitStatus
     }
   } catch (error) {
     console.error('Erreur lors de la soumission:', error);

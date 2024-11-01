@@ -1,9 +1,11 @@
-import { ref } from 'vue'
-import { useFetch } from '#app'
+// composables/useServicesReservation.js
 
-export const useServicesReservation = (form, selectedServices, totalEstimate) => {
-  const isSubmitting = ref(false)
-  const submitStatus = ref(null)
+import { ref } from 'vue';
+import { useFetch } from '#app'; // Vous pouvez supprimer cette importation
+
+export const useServicesReservation = (form, selectedServices, totalEstimate, eventType) => {
+  const isSubmitting = ref(false);
+  const submitStatus = ref(null);
 
   const prepareFormData = () => {
     return {
@@ -14,60 +16,48 @@ export const useServicesReservation = (form, selectedServices, totalEstimate) =>
       message: form.value.message,
       services: JSON.parse(JSON.stringify(selectedServices.value)),
       totalEstimate: totalEstimate.value,
-      eventType: form.value.eventType
-    }
-  }
+      eventType,
+    };
+  };
 
   const submitForm = async () => {
-    isSubmitting.value = true
-    submitStatus.value = null
+    isSubmitting.value = true;
+    submitStatus.value = null;
 
     try {
-      const formData = prepareFormData()
-      const { data, error } = await useFetch('/api/services-reservation', {
+      const formData = prepareFormData();
+      const response = await $fetch('/api/services-reservation', {
         method: 'POST',
         body: formData,
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         retry: 3,
         retryDelay: 1000,
         timeout: 15000,
-        onRequestError: ({ request, error, response }) => {
-          console.error('Erreur de requête:', error)
-          throw new Error('Erreur de connexion')
-        }
-      })
-
-      if (error.value) {
-        throw error.value
-      }
+      });
 
       submitStatus.value = {
         type: 'success',
-        message: 'Votre réservation a été envoyée avec succès!'
-      }
+        message: response.message || 'Votre réservation a été envoyée avec succès!',
+      };
     } catch (error) {
-      console.error('Erreur lors de l\'envoi de la réservation:', error)
-      
-      const errorMessage = error.statusCode === 504
-        ? 'Le serveur met trop de temps à répondre. Veuillez réessayer.'
-        : error.message || 'Une erreur est survenue lors de l\'envoi de votre réservation. Veuillez réessayer.'
-      
+      console.error('Erreur lors de l\'envoi de la réservation:', error);
+
       submitStatus.value = {
         type: 'error',
-        message: errorMessage
-      }
+        message: error.data?.message || error.message || 'Une erreur est survenue lors de l\'envoi de votre réservation. Veuillez réessayer.',
+      };
     } finally {
-      isSubmitting.value = false
+      isSubmitting.value = false;
     }
-  }
+  };
 
   return {
     isSubmitting,
     submitStatus,
-    submitForm
-  }
-}
+    submitForm,
+  };
+};
 
-export default useServicesReservation
+export default useServicesReservation;
