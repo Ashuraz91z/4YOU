@@ -79,17 +79,17 @@ const createHtmlContent = (data) => {
 
   return `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <h2 style="color: #f99bd4; text-align: center;">Nouvelle Réservation ${eventType}</h2>
-      <div style="border: 1px solid #f99bd4; background-color: rgba(249, 155, 212, 0.1); padding: 20px;">
-        <h3 style="color: #f99bd4;">Détails de la réservation</h3>
+      <h2 style="color: #fbb6e0; text-align: center;">Nouvelle Réservation ${eventType}</h2>
+      <div style="border: 1px solid #fbb6e0; background-color: rgba(251, 182, 224, 0.1); padding: 20px;">
+        <h3 style="color: #fbb6e0;">Détails de la réservation</h3>
         <p><strong>Type d'événement :</strong> ${eventType}</p>
         <p><strong>Date :</strong> ${formatDate(date)}</p>
         <p><strong>Nombre d'invités :</strong> ${guests}</p>
         ${selectedServices.length ? `<ul>${selectedServices.map(service => `<li>${service}</li>`).join('')}</ul>` : '<p>Aucun service sélectionné</p>'}
-        <p style="font-weight: bold; color: #f99bd4;">Total estimé : ${formatPrice(totalEstimate)}</p>
+        <p style="font-weight: bold; color: #fbb6e0;">Total estimé : ${formatPrice(totalEstimate)}</p>
       </div>
-      <div style="border: 1px solid #f99bd4; background-color: rgba(249, 155, 212, 0.1); padding: 20px; margin-top: 10px;">
-        <h3 style="color: #f99bd4;">Informations de contact</h3>
+      <div style="border: 1px solid #fbb6e0; background-color: rgba(251, 182, 224, 0.1); padding: 20px; margin-top: 10px;">
+        <h3 style="color: #fbb6e0;">Informations de contact</h3>
         <p><strong>Email :</strong> ${email}</p>
         <p><strong>Téléphone :</strong> ${phone}</p>
         ${message ? `<p><strong>Message :</strong> ${message}</p>` : '<p>Aucun message</p>'}

@@ -251,7 +251,8 @@ export default {
       { name: 'Star Wars', price: 250 },
       { name: 'Pokémon', price: 230 },
       { name: 'Sport', price: 180 },
-      { name: 'Casino Kids', price: 220 },
+      { name: 'Casino', price: 220 },
+      { name: 'Boom', price: 220 },
       { name: 'Olympiades', price: 200 },
       { name: 'Atelier DIY', price: 210 },
       { name: 'Urban Foot', price: 200 }
